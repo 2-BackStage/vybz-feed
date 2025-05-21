@@ -1,11 +1,11 @@
 package back.vybz.feed_service.busker.domain.mongodb;
 
+import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -15,39 +15,39 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@Document("busker_feed")
-public class BuskerFeed {
+@Document("notice")
+public class Notice {
 
     @Id
     private ObjectId id;
 
-    // 피드 작성자 uuid
+    // 버스킹 uuid
     @Field(name = "user_uuid")
     private String userUuid;
 
-    // 피드 내용
-    @Field(name = "content")
-    private String content;
+    // 공지 제목
+    @Field(name = "title")
+    private String title;
 
-    // 사람 태그
-    @Field(name = "human_tag")
-    private List<String> humanTag;
+    // 공지 내용
+    @Field(name = "description")
+    private String description;
 
-    // 해시 태그
-    @Field(name = "hash_tag")
-    private List<String> hashTag;
-
-    // 피드 타입
-    @Field(name = "feed_type")
-    private FeedType feedType;
+    // 위치
+    @Field(name = "location")
+    private Location location;
 
     // 파일 리스트
     @Field(name = "file_list")
     private List<FeedFile> fileList;
 
-    // 위치
-    @Field(name = "location")
-    private Location location;
+    // 시작 일시
+    @Field(name = "started_at")
+    private Instant startedAt;
+
+    // 종료 일시
+    @Field(name = "ended_at")
+    private Instant endedAt;
 
     // 좋아요 수
     @Field(name = "like_count")
@@ -66,14 +66,14 @@ public class BuskerFeed {
     private Instant updatedAt;
 
     @Builder
-    public BuskerFeed(String userUuid, String content, List<String> humanTag, List<String> hashTag,
-                      FeedType feedType, List<FeedFile> fileList, Location location) {
+    public Notice(String userUuid, String title, String description, List<FeedFile> fileList,
+                  Instant startedAt, Instant endedAt, Location location) {
         this.userUuid = userUuid;
-        this.content = content;
-        this.humanTag = humanTag;
-        this.hashTag = hashTag;
-        this.feedType = feedType;
+        this.title = title;
+        this.description = description;
         this.fileList = fileList;
+        this.startedAt = startedAt;
+        this.endedAt = endedAt;
         this.location = location;
     }
 
