@@ -54,20 +54,13 @@ public class UserFeed {
     private Instant updatedAt;
 
     @Builder
-    public UserFeed(ObjectId id, String userUuid, String content, String humanTag, String hasTag,
-                    List<FeedFile> fileList, Location location,
-                    Integer commentCount, Integer likeCount,
-                    Instant createdAt, Instant updatedAt) {
-        this.id = id;
+    public UserFeed(String userUuid, String content, String humanTag, String hasTag,
+                    List<FeedFile> fileList, Location location) {
         this.userUuid = userUuid;
         this.content = content;
         this.humanTag = humanTag;
         this.hasTag = hasTag;
         this.fileList = fileList;
         this.location = location;
-        this.commentCount = commentCount;
-        this.likeCount = likeCount;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 }
