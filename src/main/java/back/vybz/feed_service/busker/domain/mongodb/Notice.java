@@ -1,5 +1,6 @@
 package back.vybz.feed_service.busker.domain.mongodb;
 
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Document("notice")
+@EntityListeners(AuditingEntityListener.class)
 public class Notice {
 
     @Id
@@ -65,16 +68,36 @@ public class Notice {
     @Field(name = "updated_at")
     private Instant updatedAt;
 
+    @Field(name = "is_deleted")
+    private boolean isDeleted = false;
+
     @Builder
-    public Notice(String userUuid, String title, String description, List<FeedFile> fileList,
-                  Instant startedAt, Instant endedAt, Location location) {
+    public Notice(ObjectId id,
+                  String userUuid,
+                  String title,
+                  String description,
+                  Location location,
+                  List<FeedFile> fileList,
+                  Instant startedAt,
+                  Instant endedAt,
+                  Integer likeCount,
+                  Integer commentCount,
+                  Instant createdAt,
+                  Instant updatedAt,
+                  boolean isDeleted) {
+        this.id = id;
         this.userUuid = userUuid;
         this.title = title;
         this.description = description;
+        this.location = location;
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
-        this.location = location;
+        this.likeCount = likeCount;
+        this.commentCount = commentCount;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.isDeleted = isDeleted;
     }
 
 }

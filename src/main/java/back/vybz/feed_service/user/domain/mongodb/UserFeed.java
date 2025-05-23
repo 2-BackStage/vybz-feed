@@ -1,5 +1,6 @@
 package back.vybz.feed_service.user.domain.mongodb;
 
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Document("user_feed")
+@EntityListeners(AuditingEntityListener.class)
 public class UserFeed {
 
     @Id
@@ -53,14 +56,34 @@ public class UserFeed {
     @Field(name = "updated_at")
     private Instant updatedAt;
 
-    @Builder
-    public UserFeed(String userUuid, String content, String humanTag, String hasTag,
-                    List<FeedFile> fileList, Location location) {
+    @Field(name = "is_deleted")
+    private Boolean isDeleted = false;
+
+@Builder
+
+    public UserFeed(ObjectId id,
+                    String userUuid,
+                    String content,
+                    String humanTag,
+                    String hasTag,
+                    List<FeedFile> fileList,
+                    Location location,
+                    Integer commentCount,
+                    Integer likeCount,
+                    Instant createdAt,
+                    Instant updatedAt,
+                    Boolean isDeleted) {
+        this.id = id;
         this.userUuid = userUuid;
         this.content = content;
         this.humanTag = humanTag;
         this.hasTag = hasTag;
         this.fileList = fileList;
         this.location = location;
+        this.commentCount = commentCount;
+        this.likeCount = likeCount;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.isDeleted = isDeleted;
     }
 }
