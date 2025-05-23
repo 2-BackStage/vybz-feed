@@ -1,6 +1,5 @@
 package back.vybz.feed_service.busker.domain.mongodb;
 
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -18,7 +16,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Document("notice")
-@EntityListeners(AuditingEntityListener.class)
 public class Notice {
 
     @Id
@@ -82,8 +79,6 @@ public class Notice {
                   Instant endedAt,
                   Integer likeCount,
                   Integer commentCount,
-                  Instant createdAt,
-                  Instant updatedAt,
                   boolean isDeleted) {
         this.id = id;
         this.userUuid = userUuid;
@@ -95,8 +90,6 @@ public class Notice {
         this.endedAt = endedAt;
         this.likeCount = likeCount;
         this.commentCount = commentCount;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.isDeleted = isDeleted;
     }
 
