@@ -65,9 +65,6 @@ public class Notice {
     @Field(name = "updated_at")
     private Instant updatedAt;
 
-    @Field(name = "is_deleted")
-    private boolean isDeleted = false;
-
     @Builder
     public Notice(ObjectId id,
                   String userUuid,
@@ -78,8 +75,7 @@ public class Notice {
                   Instant startedAt,
                   Instant endedAt,
                   Integer likeCount,
-                  Integer commentCount,
-                  boolean isDeleted) {
+                  Integer commentCount) {
         this.id = id;
         this.userUuid = userUuid;
         this.title = title;
@@ -90,7 +86,6 @@ public class Notice {
         this.endedAt = endedAt;
         this.likeCount = likeCount;
         this.commentCount = commentCount;
-        this.isDeleted = isDeleted;
     }
 
 }

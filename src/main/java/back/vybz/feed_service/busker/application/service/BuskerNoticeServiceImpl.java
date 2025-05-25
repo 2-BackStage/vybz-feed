@@ -45,5 +45,16 @@ public class BuskerNoticeServiceImpl implements BuskerNoticeService {
 
         noticeRepository.save(requestUpdateNoticeDto.toEntity());
     }
+    /**
+     * 공지사항 삭제
+     *
+     * @param noticeId
+     */
+    @Override
+    public void deleteNotice(ObjectId noticeId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_NOTICE));
+        noticeRepository.delete(notice);
+    }
 
 }

@@ -45,6 +45,17 @@ public class BuskerController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(
+        summary = "공지 삭제 API",
+        description = "버스커 공지를 삭제하는 API입니다.",
+        tags = {"BUSKER-SERVICE"}
+    )
+    @DeleteMapping("/notice/{noticeId}")
+    public ResponseEntity<Void> deleteNotice(@PathVariable("noticeId") String noticeId) {
+        buskerNoticeService.deleteNotice(new ObjectId(noticeId));
+        return ResponseEntity.ok().build();
+    }
+
 
 }
 
