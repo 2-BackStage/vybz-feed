@@ -41,6 +41,7 @@ public enum BaseResponseStatus {
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, false, 408, "Refresh Token이 존재하지 않습니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, false, 409, "Refresh Token이 만료되었습니다. 다시 로그인해주세요."),
     INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, false, 410, "유효하지 않은 Access Token입니다."),
+    NO_EXIST_NOTICE(HttpStatus.NOT_FOUND,false,404, "존재하지 않는 공지사항입니다."),
 
     /**
      * 900: 기타 에러

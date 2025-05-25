@@ -1,8 +1,11 @@
 package back.vybz.feed_service.busker.application.service;
 
 import back.vybz.feed_service.busker.dto.request.RequestAddNoticeDto;
-import back.vybz.feed_service.busker.dto.response.ResponseNoticeDto;
+import back.vybz.feed_service.busker.dto.request.RequestUpdateNoticeDto;
+import back.vybz.feed_service.busker.dto.response.ResponseAddNoticeDto;
 
 public interface BuskerNoticeService {
-    ResponseNoticeDto createNotice(RequestAddNoticeDto requestAddNoticeDto);
+    ResponseAddNoticeDto createNotice(RequestAddNoticeDto requestAddNoticeDto);
+    void updateNotice(RequestUpdateNoticeDto requestUpdateNoticeDto);
+
 }

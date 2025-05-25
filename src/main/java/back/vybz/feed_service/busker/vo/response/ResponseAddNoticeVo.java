@@ -12,10 +12,10 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class ResponseNoticeVo {
+public class ResponseAddNoticeVo {
 
     private ObjectId id;
-    private String userUid;
+    private String userUuid;
     private String title;
     private String description;
     private Location location;
@@ -27,19 +27,19 @@ public class ResponseNoticeVo {
     private Instant createdAt;
 
     @Builder
-    public ResponseNoticeVo(ObjectId id,
-                            String userUid,
-                            String title,
-                            String description,
-                            Location location,
-                            List<FeedFile> fileList,
-                            Instant startedAt,
-                            Instant endedAt,
-                            Integer likeCount,
-                            Integer commentCount,
-                            Instant createdAt) {
+    public ResponseAddNoticeVo(ObjectId id,
+                               String userUuid,
+                               String title,
+                               String description,
+                               Location location,
+                               List<FeedFile> fileList,
+                               Instant startedAt,
+                               Instant endedAt,
+                               Integer likeCount,
+                               Integer commentCount,
+                               Instant createdAt) {
         this.id = id;
-        this.userUid = userUid;
+        this.userUuid = userUuid;
         this.title = title;
         this.description = description;
         this.location = location;

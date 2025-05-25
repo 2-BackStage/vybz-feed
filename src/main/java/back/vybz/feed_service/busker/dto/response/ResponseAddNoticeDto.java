@@ -3,7 +3,7 @@ package back.vybz.feed_service.busker.dto.response;
 import back.vybz.feed_service.busker.domain.mongodb.FeedFile;
 import back.vybz.feed_service.busker.domain.mongodb.Location;
 import back.vybz.feed_service.busker.domain.mongodb.Notice;
-import back.vybz.feed_service.busker.vo.response.ResponseNoticeVo;
+import back.vybz.feed_service.busker.vo.response.ResponseAddNoticeVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +14,10 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class ResponseNoticeDto {
+public class ResponseAddNoticeDto {
 
     private ObjectId id;
-    private String userUid;
+    private String userUuid;
     private String title;
     private String description;
     private Location location;
@@ -29,19 +29,19 @@ public class ResponseNoticeDto {
     private Instant createdAt;
 
     @Builder
-    public ResponseNoticeDto(ObjectId id,
-                             String userUid,
-                             String title,
-                             String description,
-                             Location location,
-                             List<FeedFile> fileList,
-                             Instant startedAt,
-                             Instant endedAt,
-                             Integer likeCount,
-                             Integer commentCount,
-                             Instant createdAt) {
+    public ResponseAddNoticeDto(ObjectId id,
+                                String userUuid,
+                                String title,
+                                String description,
+                                Location location,
+                                List<FeedFile> fileList,
+                                Instant startedAt,
+                                Instant endedAt,
+                                Integer likeCount,
+                                Integer commentCount,
+                                Instant createdAt) {
         this.id = id;
-        this.userUid = userUid;
+        this.userUuid = userUuid;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -53,10 +53,10 @@ public class ResponseNoticeDto {
         this.createdAt = createdAt;
     }
 
-    public static ResponseNoticeDto from(Notice notice) {
-        return ResponseNoticeDto.builder()
+    public static ResponseAddNoticeDto from(Notice notice) {
+        return ResponseAddNoticeDto.builder()
                 .id(notice.getId())
-                .userUid(notice.getUserUuid())
+                .userUuid(notice.getUserUuid())
                 .title(notice.getTitle())
                 .description(notice.getDescription())
                 .location(notice.getLocation())
@@ -68,10 +68,10 @@ public class ResponseNoticeDto {
                 .createdAt(notice.getCreatedAt())
                 .build();
     }
-    public ResponseNoticeVo toVo(){
-        return ResponseNoticeVo.builder()
+    public ResponseAddNoticeVo toVo(){
+        return ResponseAddNoticeVo.builder()
                 .id(this.id)
-                .userUid(this.userUid)
+                .userUuid(this.userUuid)
                 .title(this.title)
                 .description(this.description)
                 .location(this.location)
