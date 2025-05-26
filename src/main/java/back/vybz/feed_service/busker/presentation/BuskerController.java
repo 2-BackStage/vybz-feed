@@ -2,8 +2,10 @@ package back.vybz.feed_service.busker.presentation;
 
 import back.vybz.feed_service.busker.application.service.BuskerNoticeService;
 import back.vybz.feed_service.busker.dto.request.RequestAddNoticeDto;
+import back.vybz.feed_service.busker.dto.request.RequestScrollNoticeDto;
 import back.vybz.feed_service.busker.dto.request.RequestUpdateNoticeDto;
 import back.vybz.feed_service.busker.dto.response.ResponseAddNoticeDto;
+import back.vybz.feed_service.busker.dto.response.ResponseScrollNoticeDto;
 import back.vybz.feed_service.busker.vo.request.RequestAddNoticeVo;
 import back.vybz.feed_service.busker.vo.request.RequestUpdateNoticeVo;
 import back.vybz.feed_service.busker.vo.response.ResponseAddNoticeVo;
@@ -30,6 +32,30 @@ public class BuskerController {
     public ResponseEntity<ResponseAddNoticeVo> createNotice(@RequestBody RequestAddNoticeDto requestAddNoticeDto) {
         ResponseAddNoticeDto noticeDto = buskerNoticeService.createNotice(requestAddNoticeDto);
         return ResponseEntity.ok(noticeDto.toVo());
+    }
+
+    @Operation(
+            summary = "공지 목록 무한스크롤 조회 API",
+            description = "공지 데이터를 무한스크롤 방식으로 조회합니다. " +
+                    "size는 한 페이지에 가져올 개수이며, 다음 목록 요청 시에는 lastId에 이전 목록의 마지막 id를 넣어주세요. " +
+                    "sortType은 정렬 기준입니다. 'LATEST', 'LIKES', 'COMMENTS' 중 하나를 입력해주세요.",
+            tags = {"BUSKER-SERVICE"}
+    )
+    @GetMapping("/notice")
+    public ResponseEntity<ResponseScrollNoticeDto> getNotices(
+            @RequestParam(required = false) String lastId,
+            @RequestParam(defaultValue = "LATEST") String sortType,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        RequestScrollNoticeDto requestDto = RequestScrollNoticeDto.builder()
+                .lastId(lastId)
+                .sortType(sortType)
+                .size(size)
+                .build();
+
+        return ResponseEntity.ok(
+                buskerNoticeService.getNoticeScrollList(requestDto)
+        );
     }
 
     @Operation(
