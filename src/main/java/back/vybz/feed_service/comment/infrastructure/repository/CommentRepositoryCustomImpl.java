@@ -1,0 +1,29 @@
+package back.vybz.feed_service.comment.infrastructure.repository;
+
+import back.vybz.feed_service.comment.domain.mongodb.Comment;
+import com.mongodb.client.result.UpdateResult;
+import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
+
+import java.time.Instant;
+
+@Repository
+@RequiredArgsConstructor
+public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
+
+    private final MongoTemplate mongoTemplate;
+
+    @Override
+    public UpdateResult updateComment(ObjectId commentId, String writerUuid, String newComment) {
+        Query query = new Query(Criteria.where("_id").is(commentId).and("writer_uuid").is(writerUuid));
+        Update update = new Update()
+                .set("comment", newComment)
+                .set("updatedAt", Instant.now());
+       return mongoTemplate.updateFirst(query, update, Comment.class);
+    }
+}
