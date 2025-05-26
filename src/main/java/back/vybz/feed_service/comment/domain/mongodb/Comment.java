@@ -50,6 +50,10 @@ public class Comment {
     @Field(name = "parent_id")
     private ObjectId parentCommentId;
 
+    //좋아요 수
+    @Field(name = "like_count")
+    private int likeCount = 0;
+
     @CreatedDate
     @Field(name = "created_at")
     private Instant createdAt;
@@ -66,7 +70,8 @@ public class Comment {
                    String userUuid,
                    String buskerUuid,
                    String comment,
-                   ObjectId parentCommentId) {
+                   ObjectId parentCommentId,
+                   int likeCount) {
         this.id = id;
         this.feedId = feedId;
         this.targetType = targetType;
@@ -75,5 +80,6 @@ public class Comment {
         this.buskerUuid = buskerUuid;
         this.comment = comment;
         this.parentCommentId = parentCommentId;
+        this.likeCount = likeCount;
     }
 }

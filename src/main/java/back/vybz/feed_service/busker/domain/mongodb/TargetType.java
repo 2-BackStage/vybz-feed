@@ -8,10 +8,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum TargetType {
 
-    NOTICE("공지"),
-    REELS("릴스"),
-    IMAGE("이미지"),
-    FEED("피드");
+    NOTICE("공지", "notice"),
+    BUSKER_FEED("버스커 피드", "busker_feed"),
+    USER_FEED("유저 피드", "user_feed");
 
     private final String description;
+    private final String collectionName;
 }

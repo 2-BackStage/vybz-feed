@@ -1,6 +1,7 @@
 package back.vybz.feed_service.like.domain.mongodb;
 
 import back.vybz.feed_service.busker.domain.mongodb.FeedType;
+import back.vybz.feed_service.busker.domain.mongodb.TargetType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.Instant;
 
 @Getter
 @NoArgsConstructor
-@Document
+@Document(collection = "comment_likes")
 public class CommentLike {
 
     @Id
@@ -26,8 +27,8 @@ public class CommentLike {
     private ObjectId feedId;
 
     // 피드 타입
-    @Field(name = "feed_type")
-    private FeedType feedType;
+    @Field(name = "target_type")
+    private TargetType targetType;
 
     // 댓글 id
     @Field(name = "comment_id")
@@ -60,7 +61,7 @@ public class CommentLike {
     @Builder
     public CommentLike(ObjectId id,
                        ObjectId feedId,
-                       FeedType feedType,
+                       TargetType targetType,
                        ObjectId commentId,
                        String writerUuid,
                        String userUuid,
@@ -70,7 +71,7 @@ public class CommentLike {
                        Instant updatedAt) {
         this.id = id;
         this.feedId = feedId;
-        this.feedType = feedType;
+        this.targetType = targetType;
         this.commentId = commentId;
         this.writerUuid = writerUuid;
         this.userUuid = userUuid;
