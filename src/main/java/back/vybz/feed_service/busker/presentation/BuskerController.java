@@ -9,6 +9,7 @@ import back.vybz.feed_service.busker.dto.response.ResponseScrollNoticeDto;
 import back.vybz.feed_service.busker.vo.request.RequestAddNoticeVo;
 import back.vybz.feed_service.busker.vo.request.RequestUpdateNoticeVo;
 import back.vybz.feed_service.busker.vo.response.ResponseAddNoticeVo;
+import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -24,14 +25,14 @@ public class BuskerController {
     private final BuskerNoticeService buskerNoticeService;
 
     @Operation(
-        summary = "공지 등록 API",
-        description = "버스커 공지를 등록하는 API입니다.",
-        tags = {"BUSKER-SERVICE"}
+            summary = "공지 등록 API",
+            description = "버스커 공지를 등록하는 API입니다.",
+            tags = {"BUSKER-SERVICE"}
     )
     @PostMapping("/notice")
-    public ResponseEntity<ResponseAddNoticeVo> createNotice(@RequestBody RequestAddNoticeDto requestAddNoticeDto) {
+    public BaseResponseEntity<ResponseAddNoticeVo> createNotice(@RequestBody RequestAddNoticeDto requestAddNoticeDto) {
         ResponseAddNoticeDto noticeDto = buskerNoticeService.createNotice(requestAddNoticeDto);
-        return ResponseEntity.ok(noticeDto.toVo());
+        return new BaseResponseEntity<>(noticeDto.toVo());
     }
 
     @Operation(
@@ -42,7 +43,7 @@ public class BuskerController {
             tags = {"BUSKER-SERVICE"}
     )
     @GetMapping("/notice")
-    public ResponseEntity<ResponseScrollNoticeDto> getNotices(
+    public BaseResponseEntity<ResponseScrollNoticeDto> getNotices(
             @RequestParam(required = false) String lastId,
             @RequestParam(defaultValue = "LATEST") String sortType,
             @RequestParam(defaultValue = "10") int size
@@ -53,36 +54,32 @@ public class BuskerController {
                 .size(size)
                 .build();
 
-        return ResponseEntity.ok(
-                buskerNoticeService.getNoticeScrollList(requestDto)
-        );
+        return new BaseResponseEntity<>(buskerNoticeService.getNoticeScrollList(requestDto));
     }
 
     @Operation(
-        summary = "공지 수정 API",
-        description = "버스커 공지를 수정하는 API입니다.",
-        tags = {"BUSKER-SERVICE"}
+            summary = "공지 수정 API",
+            description = "버스커 공지를 수정하는 API입니다.",
+            tags = {"BUSKER-SERVICE"}
     )
     @PutMapping("/notice/{noticeId}")
-    public ResponseEntity<Void> updateNotice(@PathVariable("noticeId") String noticeId,
-                                             @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
+    public BaseResponseEntity<Void> updateNotice(@PathVariable("noticeId") String noticeId,
+                                                 @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
         String userUuid = requestUpdateNoticeVo.getUserUuid();
         buskerNoticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId, userUuid, requestUpdateNoticeVo));
-        return ResponseEntity.ok().build();
+        return new BaseResponseEntity<>();
     }
 
     @Operation(
-        summary = "공지 삭제 API",
-        description = "버스커 공지를 삭제하는 API입니다.",
-        tags = {"BUSKER-SERVICE"}
+            summary = "공지 삭제 API",
+            description = "버스커 공지를 삭제하는 API입니다.",
+            tags = {"BUSKER-SERVICE"}
     )
     @DeleteMapping("/notice/{noticeId}")
-    public ResponseEntity<Void> deleteNotice(@PathVariable("noticeId") String noticeId) {
+    public BaseResponseEntity<Void> deleteNotice(@PathVariable("noticeId") String noticeId) {
         buskerNoticeService.deleteNotice(new ObjectId(noticeId));
-        return ResponseEntity.ok().build();
+        return new BaseResponseEntity<>();
     }
-
-
 }
 
 
