@@ -5,10 +5,12 @@ import back.vybz.feed_service.busker.dto.request.RequestAddNoticeDto;
 import back.vybz.feed_service.busker.dto.request.RequestScrollNoticeDto;
 import back.vybz.feed_service.busker.dto.request.RequestUpdateNoticeDto;
 import back.vybz.feed_service.busker.dto.response.ResponseAddNoticeDto;
+import back.vybz.feed_service.busker.dto.response.ResponseNoticeDto;
 import back.vybz.feed_service.busker.dto.response.ResponseScrollNoticeDto;
 import back.vybz.feed_service.busker.vo.request.RequestAddNoticeVo;
 import back.vybz.feed_service.busker.vo.request.RequestUpdateNoticeVo;
 import back.vybz.feed_service.busker.vo.response.ResponseAddNoticeVo;
+import back.vybz.feed_service.busker.vo.response.ResponseNoticeVo;
 import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +57,17 @@ public class BuskerController {
                 .build();
 
         return new BaseResponseEntity<>(buskerNoticeService.getNoticeScrollList(requestDto));
+    }
+
+    @Operation(
+            summary = "공지 상세 조회 API",
+            description = "버스커 공지의 상세 정보를 조회하는 API입니다.",
+            tags = {"BUSKER-SERVICE"}
+    )
+    @GetMapping("/notice/{noticeId}")
+    public BaseResponseEntity<ResponseNoticeVo> getNoticeDetail(@PathVariable String noticeId) {
+        ResponseNoticeDto responseNoticeDto = buskerNoticeService.getNoticeDetail(noticeId);
+        return new BaseResponseEntity<>(responseNoticeDto.toVo());
     }
 
     @Operation(
