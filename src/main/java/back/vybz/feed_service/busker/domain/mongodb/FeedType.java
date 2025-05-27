@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum FeedType {
+public enum     FeedType {
 
     REELS("릴스"),
     IMAGE("이미지");

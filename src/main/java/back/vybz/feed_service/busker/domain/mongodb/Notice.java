@@ -66,15 +66,26 @@ public class Notice {
     private Instant updatedAt;
 
     @Builder
-    public Notice(String userUuid, String title, String description, List<FeedFile> fileList,
-                  Instant startedAt, Instant endedAt, Location location) {
+    public Notice(ObjectId id,
+                  String userUuid,
+                  String title,
+                  String description,
+                  Location location,
+                  List<FeedFile> fileList,
+                  Instant startedAt,
+                  Instant endedAt,
+                  Integer likeCount,
+                  Integer commentCount) {
+        this.id = id;
         this.userUuid = userUuid;
         this.title = title;
         this.description = description;
+        this.location = location;
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
-        this.location = location;
+        this.likeCount = likeCount;
+        this.commentCount = commentCount;
     }
 
 }

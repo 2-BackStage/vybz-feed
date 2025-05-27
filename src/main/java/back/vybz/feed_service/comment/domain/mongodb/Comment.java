@@ -1,6 +1,7 @@
 package back.vybz.feed_service.comment.domain.mongodb;
 
 import back.vybz.feed_service.busker.domain.mongodb.FeedType;
+import back.vybz.feed_service.busker.domain.mongodb.TargetType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.Instant;
 
 @Getter
 @NoArgsConstructor
-@Document
+@Document(collection = "comments")
 public class Comment {
 
     @Id
@@ -26,11 +27,11 @@ public class Comment {
     private ObjectId feedId;
 
     // 피드 타입
-    @Field(name = "feed_type")
-    private FeedType feedType;
+    @Field(name = "target_type")
+    private TargetType targetType;
 
     //댓글작성자 uuid
-    @Field(name = " writer_uuid")
+    @Field(name = "writer_uuid")
     private String writerUuid;
 
     // 피드 작성자 uuid
@@ -45,6 +46,14 @@ public class Comment {
     @Field(name = "comment")
     private String comment;
 
+    // 부모 댓글 ID (대댓글일 경우에만 세팅됨)
+    @Field(name = "parent_id")
+    private ObjectId parentCommentId;
+
+    //좋아요 수
+    @Field(name = "like_count")
+    private int likeCount = 0;
+
     @CreatedDate
     @Field(name = "created_at")
     private Instant createdAt;
@@ -56,18 +65,21 @@ public class Comment {
     @Builder
     public Comment(ObjectId id,
                    ObjectId feedId,
-                   FeedType feedType,
+                   TargetType targetType,
                    String writerUuid,
                    String userUuid,
                    String buskerUuid,
-                   String comment) {
+                   String comment,
+                   ObjectId parentCommentId,
+                   int likeCount) {
         this.id = id;
         this.feedId = feedId;
-        this.feedType = feedType;
+        this.targetType = targetType;
         this.writerUuid = writerUuid;
         this.userUuid = userUuid;
         this.buskerUuid = buskerUuid;
         this.comment = comment;
+        this.parentCommentId = parentCommentId;
+        this.likeCount = likeCount;
     }
-
 }
