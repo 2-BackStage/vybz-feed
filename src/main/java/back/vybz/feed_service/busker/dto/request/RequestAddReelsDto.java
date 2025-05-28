@@ -4,6 +4,7 @@ import back.vybz.feed_service.busker.domain.mongodb.BuskerFeed;
 import back.vybz.feed_service.busker.domain.mongodb.FeedFile;
 import back.vybz.feed_service.busker.domain.mongodb.FeedType;
 import back.vybz.feed_service.busker.domain.mongodb.Location;
+import back.vybz.feed_service.busker.vo.request.RequestAddReelsVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,16 +45,17 @@ public class RequestAddReelsDto {
         this.videoFile = videoFile;
     }
 
-    public BuskerFeed toEntity() {
-        return BuskerFeed.builder()
-                .userUuid(userUuid)
-                .content(content)
-                .humanTag(humanTag)
-                .hashTag(hashtag)
-                .feedType(feedType)
-                .fileList(fileList)
-                .thumbnailUrl(thumbnailUrl)
-                .location(location)
+    public static RequestAddReelsDto from(RequestAddReelsVo requestAddReelsVo) {
+        return RequestAddReelsDto.builder()
+                .userUuid(requestAddReelsVo.getUserUuid())
+                .content(requestAddReelsVo.getContent())
+                .humanTag(requestAddReelsVo.getHumanTag())
+                .hashtag(requestAddReelsVo.getHashtag())
+                .feedType(requestAddReelsVo.getFeedType())
+                .fileList(requestAddReelsVo.getFileList())
+                .thumbnailUrl(requestAddReelsVo.getThumbnailUrl())
+                .location(requestAddReelsVo.getLocation())
                 .build();
     }
+
 }

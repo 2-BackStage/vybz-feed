@@ -4,13 +4,19 @@ import back.vybz.feed_service.busker.domain.mongodb.BuskerFeed;
 import back.vybz.feed_service.busker.domain.mongodb.FeedFile;
 import back.vybz.feed_service.busker.domain.mongodb.FeedType;
 import back.vybz.feed_service.busker.dto.request.RequestAddReelsDto;
+import back.vybz.feed_service.busker.dto.request.RequestUpdateReelsDto;
 import back.vybz.feed_service.busker.dto.response.ResponseAddReelsDto;
 import back.vybz.feed_service.busker.infrastructure.repository.ReelsRepository;
 import back.vybz.feed_service.common.exception.BaseException;
 import back.vybz.feed_service.common.exception.BaseResponseStatus;
 import back.vybz.feed_service.common.util.S3UploaderUtil;
+import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -77,5 +84,26 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
             throw new BaseException(BaseResponseStatus.REELS_CREATE_FAILED);
         }
     }
+
+    /**
+     * Reels 수정
+     * @param requestUpdateReelsDto
+     */
+    @Override
+    public void updateReels(RequestUpdateReelsDto requestUpdateReelsDto) {
+        UpdateResult updateResult = reelsRepository.updateReels(
+                requestUpdateReelsDto.getId(), requestUpdateReelsDto
+        );
+
+        if (updateResult.getModifiedCount() == 0) {
+            throw new BaseException(BaseResponseStatus.REELS_UPDATE_FAILED);
+        }
+    }
+
+    /**
+     * Reels 삭제
+     * @param reelsId
+     */
+
 
 }

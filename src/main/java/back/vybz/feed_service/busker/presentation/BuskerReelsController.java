@@ -2,8 +2,11 @@ package back.vybz.feed_service.busker.presentation;
 
 import back.vybz.feed_service.busker.domain.mongodb.Location;
 import back.vybz.feed_service.busker.dto.request.RequestAddReelsDto;
+import back.vybz.feed_service.busker.dto.request.RequestUpdateReelsDto;
 import back.vybz.feed_service.busker.dto.response.ResponseAddReelsDto;
 import back.vybz.feed_service.busker.application.service.BuskerReelsService;
+import back.vybz.feed_service.busker.vo.request.RequestAddReelsVo;
+import back.vybz.feed_service.busker.vo.request.RequestUpdateReelsVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -27,12 +30,27 @@ public class BuskerReelsController {
     )
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseAddReelsDto> createReels(
-            @ModelAttribute RequestAddReelsDto requestAddReelsDto,
+            @ModelAttribute RequestAddReelsVo requestAddReelsVo,
             @RequestPart("videoFile") MultipartFile videoFile
     ) {
 
+        RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo);
         requestAddReelsDto.setVideoFile(videoFile);
 
         return ResponseEntity.ok(buskerReelsService.createReels(requestAddReelsDto));
     }
+
+    @Operation(
+            summary = "Reels 수정 API",
+            description = "버스커 Reels를 수정하는 API입니다.",
+            tags = {"BUSKER-SERVICE"}
+    )
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateReels(@PathVariable("id") String feedId,
+                                            @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
+        RequestUpdateReelsDto requestUpdateReelsDto = RequestUpdateReelsDto.from(feedId, requestUpdateReelsVo);
+        buskerReelsService.updateReels(requestUpdateReelsDto);
+        return ResponseEntity.ok().build();
+    }
 }
+
