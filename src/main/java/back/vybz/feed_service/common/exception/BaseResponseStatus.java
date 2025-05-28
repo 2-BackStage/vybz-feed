@@ -50,6 +50,7 @@ public enum BaseResponseStatus {
     THUMBNAIL_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "썸네일 생성에 실패했습니다."),
     REELS_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "릴스 등록 중 오류가 발생했습니다."),
     REELS_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "릴스 수정 중 오류가 발생했습니다."),
+    REELS_NOT_FOUND(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 릴스입니다."),
 
 
     /**

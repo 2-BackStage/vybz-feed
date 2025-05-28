@@ -9,6 +9,7 @@ import back.vybz.feed_service.busker.vo.request.RequestAddReelsVo;
 import back.vybz.feed_service.busker.vo.request.RequestUpdateReelsVo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,16 @@ public class BuskerReelsController {
                                             @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
         RequestUpdateReelsDto requestUpdateReelsDto = RequestUpdateReelsDto.from(feedId, requestUpdateReelsVo);
         buskerReelsService.updateReels(requestUpdateReelsDto);
+        return ResponseEntity.ok().build();
+    }
+    @Operation(
+            summary = "Reels 삭제 API",
+            description = "버스커 Reels를 삭제하는 API입니다.",
+            tags = {"BUSKER-SERVICE"}
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReels(@PathVariable("id") String feedId) {
+        buskerReelsService.deleteReels(new ObjectId(feedId));
         return ResponseEntity.ok().build();
     }
 }

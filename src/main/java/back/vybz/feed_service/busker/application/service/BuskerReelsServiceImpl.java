@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
@@ -104,6 +105,32 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
      * Reels 삭제
      * @param reelsId
      */
+    @Override
+    @Transactional
+    public void deleteReels(ObjectId reelsId) {
+        BuskerFeed feed = reelsRepository.findById(reelsId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.REELS_NOT_FOUND));
+
+
+        for (FeedFile file : feed.getFileList()) {
+            try {
+                s3UploaderUtil.delete(file.getFileUrl());
+            } catch (URISyntaxException e) {
+                log.error("S3 파일 삭제 실패 - URL: {}", file.getFileUrl(), e);
+            }
+        }
+
+
+        try {
+            s3UploaderUtil.delete(feed.getThumbnailUrl());
+        } catch (URISyntaxException e) {
+            log.error("S3 썸네일 삭제 실패 - URL: {}", feed.getThumbnailUrl(), e);
+        }
+
+        reelsRepository.deleteById(reelsId);
+    }
+
+
 
 
 }
