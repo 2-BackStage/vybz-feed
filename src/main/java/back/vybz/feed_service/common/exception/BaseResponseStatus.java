@@ -45,6 +45,13 @@ public enum BaseResponseStatus {
     NO_EXIST_COMMENT_OR_NO_AUTH(HttpStatus.NOT_FOUND, false,404,"댓글이 존재하지 않거나 권한이 없습니다."),
 
     /**
+     * 500: 서버 에러
+     */
+    THUMBNAIL_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "썸네일 생성에 실패했습니다."),
+    REELS_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "릴스 등록 중 오류가 발생했습니다."),
+
+
+    /**
      * 900: 기타 에러
      */
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "Internal server error"),

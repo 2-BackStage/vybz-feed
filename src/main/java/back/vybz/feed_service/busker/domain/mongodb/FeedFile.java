@@ -1,5 +1,6 @@
 package back.vybz.feed_service.busker.domain.mongodb;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,5 +16,14 @@ public class FeedFile {
 
     // 파일 타입
     private FeedType feedType;
+
+    @Builder
+    public FeedFile(String fileName,
+                    String fileUrl,
+                    FeedType feedType) {
+        this.fileName = fileName;
+        this.fileUrl = fileUrl;
+        this.feedType = feedType;
+    }
 
 }

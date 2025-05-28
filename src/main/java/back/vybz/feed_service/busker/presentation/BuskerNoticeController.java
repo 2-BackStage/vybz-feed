@@ -7,7 +7,6 @@ import back.vybz.feed_service.busker.dto.request.RequestUpdateNoticeDto;
 import back.vybz.feed_service.busker.dto.response.ResponseAddNoticeDto;
 import back.vybz.feed_service.busker.dto.response.ResponseNoticeDto;
 import back.vybz.feed_service.busker.dto.response.ResponseScrollNoticeDto;
-import back.vybz.feed_service.busker.vo.request.RequestAddNoticeVo;
 import back.vybz.feed_service.busker.vo.request.RequestUpdateNoticeVo;
 import back.vybz.feed_service.busker.vo.response.ResponseAddNoticeVo;
 import back.vybz.feed_service.busker.vo.response.ResponseNoticeVo;
@@ -15,14 +14,13 @@ import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/api/v1/feed")
 @RequiredArgsConstructor
-public class BuskerController {
+public class BuskerNoticeController {
 
     private final BuskerNoticeService buskerNoticeService;
 

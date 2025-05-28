@@ -1,5 +1,6 @@
 package back.vybz.feed_service.busker.domain.mongodb;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,5 +16,12 @@ public class Location {
 
     // 경도
     private Double longitude;
+
+    @Builder
+    public Location(String name, Double latitude, Double longitude) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
 }

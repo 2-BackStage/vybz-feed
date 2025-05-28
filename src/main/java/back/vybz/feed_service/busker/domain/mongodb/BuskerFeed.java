@@ -45,6 +45,9 @@ public class BuskerFeed {
     @Field(name = "file_list")
     private List<FeedFile> fileList;
 
+    @Field(name = "thumbnail_url")
+    private String thumbnailUrl;
+
     // 위치
     @Field(name = "location")
     private Location location;
@@ -66,14 +69,21 @@ public class BuskerFeed {
     private Instant updatedAt;
 
     @Builder
-    public BuskerFeed(String userUuid, String content, List<String> humanTag, List<String> hashTag,
-                      FeedType feedType, List<FeedFile> fileList, Location location) {
+    public BuskerFeed(String userUuid,
+                      String content,
+                      List<String> humanTag,
+                      List<String> hashTag,
+                      FeedType feedType,
+                      List<FeedFile> fileList,
+                      String thumbnailUrl,
+                      Location location) {
         this.userUuid = userUuid;
         this.content = content;
         this.humanTag = humanTag;
         this.hashTag = hashTag;
         this.feedType = feedType;
         this.fileList = fileList;
+        this.thumbnailUrl = thumbnailUrl;
         this.location = location;
     }
 
