@@ -54,7 +54,7 @@ public class ResponseNoticeDto {
     }
     public static ResponseNoticeDto from(Notice notice){
         return ResponseNoticeDto.builder()
-                .id(notice.getId().toHexString())
+                .id(notice.getId())
                 .userUuid(notice.getUserUuid())
                 .title(notice.getTitle())
                 .description(notice.getDescription())

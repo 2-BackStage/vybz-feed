@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class FeedLikeServiceImpl implements FeedLikeService {
 
     private final FeedLikeRepository feedLikeRepository;
@@ -22,15 +21,16 @@ public class FeedLikeServiceImpl implements FeedLikeService {
      * 피드 좋아요 토글
      */
     @Override
+    @Transactional
     public ResponseFeedLikeVo toggleFeedLike(RequestFeedLikeDto requestFeedLikeDto) {
-        ObjectId feedId = new ObjectId(requestFeedLikeDto.getFeedId());
+        String feedId = requestFeedLikeDto.getFeedId();
         String userUuid = requestFeedLikeDto.getUserUuid();
+        String collection = requestFeedLikeDto.getTargetType().getCollectionName();
 
         Optional<FeedLike> existingLike = feedLikeRepository.findByFeedIdAndUserUuid(feedId, userUuid);
 
         boolean liked;
         int likeCount;
-        String collection = requestFeedLikeDto.getTargetType().getCollectionName();
 
         if (existingLike.isPresent()) {
             feedLikeRepository.deleteById(existingLike.get().getId());

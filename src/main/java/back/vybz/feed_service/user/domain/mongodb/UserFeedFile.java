@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class FeedFile {
+public class UserFeedFile {
 
     private String name;
 

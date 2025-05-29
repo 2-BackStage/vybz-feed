@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CommentLikeServiceImpl implements CommentLikeService {
 
     private final CommentLikeRepository commentLikeRepository;
@@ -25,34 +24,30 @@ public class CommentLikeServiceImpl implements CommentLikeService {
         * 댓글 좋아요 토글
      */
     @Override
-    public ResponseCommentLikeVo toggleCommentLike(RequestCommentLikeDto requestCommentLikeDto){
-        ObjectId commentId = new ObjectId(requestCommentLikeDto.getCommentId());
+    @Transactional
+    public ResponseCommentLikeVo toggleCommentLike(RequestCommentLikeDto requestCommentLikeDto) {
+        String commentId = requestCommentLikeDto.getCommentId();
         String userUuid = requestCommentLikeDto.getUserUuid();
+        String collection = requestCommentLikeDto.getTargetType().getCollectionName();
 
         Optional<CommentLike> existingLike = commentLikeRepository.findByCommentIdAndUserUuid(commentId, userUuid);
 
         boolean liked;
         int likeCount;
-        String collection = requestCommentLikeDto.getTargetType().getCollectionName();
 
-        if(existingLike.isPresent()){
+        if (existingLike.isPresent()) {
             commentLikeRepository.deleteById(existingLike.get().getId());
             likeCount = commentLikeRepository.incLikeCount(commentId, -1, collection);
             liked = false;
         } else {
             CommentLike like = CommentLike.builder()
-                    .feedId(new ObjectId(requestCommentLikeDto.getFeedId()))
+                    .feedId(requestCommentLikeDto.getFeedId())
                     .targetType(requestCommentLikeDto.getTargetType())
                     .commentId(commentId)
                     .writerUuid(requestCommentLikeDto.getWriterUuid())
                     .userUuid(userUuid)
                     .buskerUuid(requestCommentLikeDto.getBuskerUuid())
-                    .parentCommentId(
-                            requestCommentLikeDto.getParentCommentId() != null &&
-                                    ObjectId.isValid(requestCommentLikeDto.getParentCommentId())
-                                    ? new ObjectId(requestCommentLikeDto.getParentCommentId())
-                                    : null
-                    )
+                    .parentCommentId(requestCommentLikeDto.getParentCommentId()) // null이면 null로 들어감
                     .createdAt(Instant.now())
                     .build();
 
@@ -62,7 +57,7 @@ public class CommentLikeServiceImpl implements CommentLikeService {
         }
 
         return ResponseCommentLikeVo.builder()
-                .commentId(requestCommentLikeDto.getCommentId())
+                .commentId(commentId)
                 .liked(liked)
                 .likeCount(likeCount)
                 .build();
