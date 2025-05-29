@@ -69,6 +69,8 @@ public class BuskerReelsController {
         buskerReelsService.updateReels(requestUpdateReelsDto);
         return ResponseEntity.ok().build();
     }
+
+
     @Operation(
             summary = "Reels 삭제 API",
             description = "버스커 Reels를 삭제하는 API입니다.",
@@ -76,7 +78,7 @@ public class BuskerReelsController {
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReels(@PathVariable("id") String feedId) {
-        buskerReelsService.deleteReels(new ObjectId(feedId));
+        buskerReelsService.deleteReels(feedId);
         return ResponseEntity.ok().build();
     }
 }

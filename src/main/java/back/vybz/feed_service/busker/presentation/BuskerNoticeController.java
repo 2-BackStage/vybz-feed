@@ -88,7 +88,7 @@ public class BuskerNoticeController {
     )
     @DeleteMapping("/notice/{noticeId}")
     public BaseResponseEntity<Void> deleteNotice(@PathVariable("noticeId") String noticeId) {
-        buskerNoticeService.deleteNotice(new ObjectId(noticeId));
+        buskerNoticeService.deleteNotice(noticeId);
         return new BaseResponseEntity<>();
     }
 }

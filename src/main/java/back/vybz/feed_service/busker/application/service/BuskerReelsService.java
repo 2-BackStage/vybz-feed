@@ -10,9 +10,8 @@ import org.bson.types.ObjectId;
 public interface BuskerReelsService {
     ResponseAddReelsDto createReels(RequestAddReelsDto requestAddReelsDto);
     ResponseScrollReelsDto getReelsScrollList(RequestScrollReelsDto requestScrollReelsDto);
-
     void updateReels(RequestUpdateReelsDto requestUpdateReelsDto);
-    void deleteReels(ObjectId reelsId);
+    void deleteReels(String reelsId);
 
 
 }

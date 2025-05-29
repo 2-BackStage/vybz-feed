@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface ReelsRepository extends MongoRepository<BuskerFeed, ObjectId>, ReelsRepositoryCustom {
+public interface ReelsRepository extends MongoRepository<BuskerFeed, String>, ReelsRepositoryCustom {
     Optional<BuskerFeed> findById(String id);
 }

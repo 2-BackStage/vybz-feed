@@ -16,7 +16,6 @@ import back.vybz.feed_service.common.util.S3UploaderUtil;
 import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,10 +37,7 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
 
     /**
      * Reels 생성
-     * @param requestAddReelsDto
-     * @return
      */
-
     @Override
     @Transactional
     public ResponseAddReelsDto createReels(RequestAddReelsDto requestAddReelsDto) {
@@ -51,7 +47,6 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
             String videoUrl = s3UploaderUtil.upload(file, "reels");
 
             File tempFile = File.createTempFile("temp_", file.getOriginalFilename());
-
             file.transferTo(tempFile);
 
             File thumbnailFile = thumbnailService.generateThumbnail(tempFile);
@@ -76,10 +71,10 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
                     .thumbnailUrl(thumbnailUrl)
                     .location(requestAddReelsDto.getLocation())
                     .build();
+
             BuskerFeed saved = reelsRepository.save(feed);
 
-
-            return new ResponseAddReelsDto(saved.getId().toHexString(), videoUrl, thumbnailUrl);
+            return new ResponseAddReelsDto(saved.getId(), videoUrl, thumbnailUrl);
 
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.REELS_CREATE_FAILED);
@@ -88,12 +83,9 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
 
     /**
      * Reels 무한스크롤 조회
-     * @param requestScrollReelsDto
-     * @return
      */
     @Override
     public ResponseScrollReelsDto getReelsScrollList(RequestScrollReelsDto requestScrollReelsDto) {
-        log.info(requestScrollReelsDto.toString());
         Instant cursorCreatedAt = null;
         if (requestScrollReelsDto.getLastCreatedAt() != null && !requestScrollReelsDto.getLastCreatedAt().isBlank()) {
             log.info(requestScrollReelsDto.getLastCreatedAt());
@@ -119,11 +111,8 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
         return ResponseScrollReelsDto.from(cursorPage);
     }
 
-
-
     /**
      * Reels 수정
-     * @param requestUpdateReelsDto
      */
     @Override
     @Transactional
@@ -139,14 +128,12 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
 
     /**
      * Reels 삭제
-     * @param reelsId
      */
     @Override
     @Transactional
-    public void deleteReels(ObjectId reelsId) {
+    public void deleteReels(String reelsId) {
         BuskerFeed feed = reelsRepository.findById(reelsId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.REELS_NOT_FOUND));
-
 
         for (FeedFile file : feed.getFileList()) {
             try {
@@ -156,7 +143,6 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
             }
         }
 
-
         try {
             s3UploaderUtil.delete(feed.getThumbnailUrl());
         } catch (URISyntaxException e) {
@@ -165,8 +151,4 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
 
         reelsRepository.deleteById(reelsId);
     }
-
-
-
-
 }
