@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 import java.util.List;
 
 public interface CommentRepositoryCustom {
-    UpdateResult updateComment(ObjectId commentId, String writerUuid, String newComment);
+    UpdateResult updateComment(String commentId, String writerUuid, String newComment);
     List<Comment> findCommentsWithScroll(String feedId, TargetType targetType, ObjectId lastId, int size);
 
 }

@@ -20,11 +20,11 @@ import java.time.Instant;
 public class Comment {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     // 피드 id
     @Field(name = "feed_id")
-    private ObjectId feedId;
+    private String feedId;
 
     // 피드 타입
     @Field(name = "target_type")
@@ -63,8 +63,8 @@ public class Comment {
     private Instant updatedAt;
 
     @Builder
-    public Comment(ObjectId id,
-                   ObjectId feedId,
+    public Comment(String id,
+                   String feedId,
                    TargetType targetType,
                    String writerUuid,
                    String userUuid,

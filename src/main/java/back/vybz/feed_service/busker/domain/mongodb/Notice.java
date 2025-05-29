@@ -19,7 +19,7 @@ import java.util.List;
 public class Notice {
 
     @Id
-    private ObjectId id;
+    private  String id;
 
     // 버스킹 uuid
     @Field(name = "user_uuid")
@@ -66,7 +66,7 @@ public class Notice {
     private Instant updatedAt;
 
     @Builder
-    public Notice(ObjectId id,
+    public Notice( String id,
                   String userUuid,
                   String title,
                   String description,

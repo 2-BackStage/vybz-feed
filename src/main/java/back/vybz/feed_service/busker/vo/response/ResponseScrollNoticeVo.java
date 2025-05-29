@@ -52,7 +52,7 @@ public class ResponseScrollNoticeVo {
     }
     public static ResponseScrollNoticeVo from(Notice notice) {
         return ResponseScrollNoticeVo.builder()
-                .id(notice.getId().toHexString())
+                .id(notice.getId())
                 .userUuid(notice.getUserUuid())
                 .title(notice.getTitle())
                 .description(notice.getDescription())

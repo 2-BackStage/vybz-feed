@@ -19,7 +19,7 @@ import java.util.List;
 public class BuskerFeed {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     // 버스커 UUID
     @Field(name = "busker_uuid")
@@ -69,7 +69,8 @@ public class BuskerFeed {
     private Instant updatedAt;
 
     @Builder
-    public BuskerFeed(String buskerUuid,
+    public BuskerFeed( String id,
+                      String buskerUuid,
                       String content,
                       List<String> humanTag,
                       List<String> hashTag,
@@ -77,6 +78,7 @@ public class BuskerFeed {
                       List<FeedFile> fileList,
                       String thumbnailUrl,
                       Location location) {
+        this.id = id;
         this.buskerUuid = buskerUuid;
         this.content = content;
         this.humanTag = humanTag;

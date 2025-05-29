@@ -29,7 +29,7 @@ public class ResponseScrollCommentVo {
 
     public static ResponseScrollCommentVo from(Comment comment) {
         return ResponseScrollCommentVo.builder()
-                .id(comment.getId().toHexString())
+                .id(comment.getId())
                 .writerUuid(comment.getWriterUuid())
                 .comment(comment.getComment())
                 .isReply(comment.getParentCommentId() != null)

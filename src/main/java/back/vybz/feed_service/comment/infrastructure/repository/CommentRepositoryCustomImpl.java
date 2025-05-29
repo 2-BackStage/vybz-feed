@@ -22,7 +22,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public UpdateResult updateComment(ObjectId commentId, String writerUuid, String newComment) {
+    public UpdateResult updateComment(String commentId, String writerUuid, String newComment) {
         Query query = new Query(Criteria.where("_id").is(commentId).and("writer_uuid").is(writerUuid));
         Update update = new Update()
                 .set("comment", newComment)

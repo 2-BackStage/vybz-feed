@@ -22,7 +22,7 @@ import java.util.List;
 public class UserFeed {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     @Field(name = "user_uuid")
     private String userUuid;
@@ -61,7 +61,7 @@ public class UserFeed {
 
 @Builder
 
-    public UserFeed(ObjectId id,
+    public UserFeed(String id,
                     String userUuid,
                     String content,
                     String humanTag,

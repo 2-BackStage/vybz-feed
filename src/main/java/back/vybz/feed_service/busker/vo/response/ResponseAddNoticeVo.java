@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponseAddNoticeVo {
 
-    private ObjectId id;
+    private String id;
     private String userUuid;
     private String title;
     private String description;
@@ -27,7 +27,7 @@ public class ResponseAddNoticeVo {
     private Instant createdAt;
 
     @Builder
-    public ResponseAddNoticeVo(ObjectId id,
+    public ResponseAddNoticeVo(String id,
                                String userUuid,
                                String title,
                                String description,

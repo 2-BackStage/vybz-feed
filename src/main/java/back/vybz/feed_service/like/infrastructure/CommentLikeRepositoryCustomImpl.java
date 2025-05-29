@@ -2,7 +2,6 @@ package back.vybz.feed_service.like.infrastructure;
 
 import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,7 +13,7 @@ public class CommentLikeRepositoryCustomImpl implements CommentLikeRepositoryCus
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public int incLikeCount(ObjectId commentId, int delta, String collectionName) {
+    public int incLikeCount(String commentId, int delta, String collectionName) {
         Query query = new Query(Criteria.where("_id").is(commentId));
         Update update = new Update().inc("like_count", delta);
         UpdateResult result = mongoTemplate.updateFirst(query, update, collectionName);

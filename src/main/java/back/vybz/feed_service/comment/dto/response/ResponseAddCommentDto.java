@@ -31,7 +31,7 @@ public class ResponseAddCommentDto {
     }
     public static ResponseAddCommentDto from(Comment comment) {
         return ResponseAddCommentDto.builder()
-                .id(comment.getId().toHexString())
+                .id(comment.getId())
                 .comment(comment.getComment())
                 .writerUuid(comment.getWriterUuid())
                 .createdAt(comment.getCreatedAt())
