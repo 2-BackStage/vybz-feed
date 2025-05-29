@@ -35,20 +35,25 @@ public class CursorPage<T> {
                 .build();
     }
 
-
     public static <T> CursorPage<T> of(List<T> content, int size, Function<T, String> getIdFunc) {
         boolean hasNext = content.size() > size;
 
         if (hasNext) {
+            String nextCursor = getIdFunc.apply(content.get(size - 1)); // 마지막 요소 기준으로 커서 설정
             content = content.subList(0, size);
-        }
 
-        String nextCursor = hasNext ? getIdFunc.apply(content.get(content.size() - 1)) : null;
+            return CursorPage.<T>builder()
+                    .content(content)
+                    .hasNext(true)
+                    .nextCursor(nextCursor)
+                    .build();
+        }
 
         return CursorPage.<T>builder()
                 .content(content)
-                .hasNext(hasNext)
-                .nextCursor(nextCursor)
+                .hasNext(false)
+                .nextCursor(null)
                 .build();
     }
+
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestAddReelsDto {
 
-    private String userUuid;
+    private String buskerUuid;
     private String content;
     private List<String> humanTag;
     private List<String> hashtag;
@@ -27,10 +27,16 @@ public class RequestAddReelsDto {
     private MultipartFile videoFile;
 
     @Builder
-    public RequestAddReelsDto(String userUuid, String content, List<String> humanTag, List<String> hashtag,
-                              FeedType feedType, List<FeedFile> fileList, String thumbnailUrl,
-                              Location location, MultipartFile videoFile) {
-        this.userUuid = userUuid;
+    public RequestAddReelsDto(String buskerUuid,
+                              String content,
+                              List<String> humanTag,
+                              List<String> hashtag,
+                              FeedType feedType,
+                              List<FeedFile> fileList,
+                              String thumbnailUrl,
+                              Location location,
+                              MultipartFile videoFile) {
+        this.buskerUuid = buskerUuid;
         this.content = content;
         this.humanTag = humanTag;
         this.hashtag = hashtag;
@@ -47,13 +53,11 @@ public class RequestAddReelsDto {
 
     public static RequestAddReelsDto from(RequestAddReelsVo requestAddReelsVo) {
         return RequestAddReelsDto.builder()
-                .userUuid(requestAddReelsVo.getUserUuid())
+                .buskerUuid(requestAddReelsVo.getBuskerUuid())
                 .content(requestAddReelsVo.getContent())
                 .humanTag(requestAddReelsVo.getHumanTag())
                 .hashtag(requestAddReelsVo.getHashtag())
                 .feedType(requestAddReelsVo.getFeedType())
-                .fileList(requestAddReelsVo.getFileList())
-                .thumbnailUrl(requestAddReelsVo.getThumbnailUrl())
                 .location(requestAddReelsVo.getLocation())
                 .build();
     }

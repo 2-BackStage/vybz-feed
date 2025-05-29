@@ -2,11 +2,14 @@ package back.vybz.feed_service.busker.presentation;
 
 import back.vybz.feed_service.busker.domain.mongodb.Location;
 import back.vybz.feed_service.busker.dto.request.RequestAddReelsDto;
+import back.vybz.feed_service.busker.dto.request.RequestScrollReelsDto;
 import back.vybz.feed_service.busker.dto.request.RequestUpdateReelsDto;
 import back.vybz.feed_service.busker.dto.response.ResponseAddReelsDto;
 import back.vybz.feed_service.busker.application.service.BuskerReelsService;
+import back.vybz.feed_service.busker.dto.response.ResponseScrollReelsDto;
 import back.vybz.feed_service.busker.vo.request.RequestAddReelsVo;
 import back.vybz.feed_service.busker.vo.request.RequestUpdateReelsVo;
+import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -29,16 +32,29 @@ public class BuskerReelsController {
             description = "버스커 Reels를 생성하는 API입니다.",
             tags = {"BUSKER-SERVICE"}
     )
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping
     public ResponseEntity<ResponseAddReelsDto> createReels(
-            @ModelAttribute RequestAddReelsVo requestAddReelsVo,
+            @RequestPart RequestAddReelsVo requestAddReelsVo,
             @RequestPart("videoFile") MultipartFile videoFile
     ) {
-
         RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo);
         requestAddReelsDto.setVideoFile(videoFile);
 
         return ResponseEntity.ok(buskerReelsService.createReels(requestAddReelsDto));
+    }
+
+    @Operation(
+            summary = "Reels 목록 무한스크롤 조회 API",
+            description = "버스커 Reels 목록을 무한스크롤로 조회하는 API입니다.",
+            tags = {"BUSKER-SERVICE"}
+    )
+    @GetMapping("/reels")
+    public BaseResponseEntity<ResponseScrollReelsDto> getReelsScrollList(
+            @ModelAttribute RequestScrollReelsDto requestScrollReelsDto
+    ) {
+        return BaseResponseEntity.ok(
+                buskerReelsService.getReelsScrollList(requestScrollReelsDto)
+        );
     }
 
     @Operation(

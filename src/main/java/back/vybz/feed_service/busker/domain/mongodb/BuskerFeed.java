@@ -21,9 +21,9 @@ public class BuskerFeed {
     @Id
     private ObjectId id;
 
-    // 피드 작성자 uuid
-    @Field(name = "user_uuid")
-    private String userUuid;
+    // 버스커 UUID
+    @Field(name = "busker_uuid")
+    private String buskerUuid;
 
     // 피드 내용
     @Field(name = "content")
@@ -69,7 +69,7 @@ public class BuskerFeed {
     private Instant updatedAt;
 
     @Builder
-    public BuskerFeed(String userUuid,
+    public BuskerFeed(String buskerUuid,
                       String content,
                       List<String> humanTag,
                       List<String> hashTag,
@@ -77,7 +77,7 @@ public class BuskerFeed {
                       List<FeedFile> fileList,
                       String thumbnailUrl,
                       Location location) {
-        this.userUuid = userUuid;
+        this.buskerUuid = buskerUuid;
         this.content = content;
         this.humanTag = humanTag;
         this.hashTag = hashTag;

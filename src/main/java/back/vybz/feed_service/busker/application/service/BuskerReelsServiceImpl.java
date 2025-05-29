@@ -4,19 +4,19 @@ import back.vybz.feed_service.busker.domain.mongodb.BuskerFeed;
 import back.vybz.feed_service.busker.domain.mongodb.FeedFile;
 import back.vybz.feed_service.busker.domain.mongodb.FeedType;
 import back.vybz.feed_service.busker.dto.request.RequestAddReelsDto;
+import back.vybz.feed_service.busker.dto.request.RequestScrollReelsDto;
 import back.vybz.feed_service.busker.dto.request.RequestUpdateReelsDto;
 import back.vybz.feed_service.busker.dto.response.ResponseAddReelsDto;
+import back.vybz.feed_service.busker.dto.response.ResponseScrollReelsDto;
 import back.vybz.feed_service.busker.infrastructure.repository.ReelsRepository;
 import back.vybz.feed_service.common.exception.BaseException;
 import back.vybz.feed_service.common.exception.BaseResponseStatus;
+import back.vybz.feed_service.common.util.CursorPage;
 import back.vybz.feed_service.common.util.S3UploaderUtil;
 import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -65,7 +65,7 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
             );
 
             BuskerFeed feed = BuskerFeed.builder()
-                    .userUuid(requestAddReelsDto.getUserUuid())
+                    .buskerUuid(requestAddReelsDto.getBuskerUuid())
                     .content(requestAddReelsDto.getContent())
                     .humanTag(requestAddReelsDto.getHumanTag())
                     .hashTag(requestAddReelsDto.getHashtag())
@@ -87,10 +87,46 @@ public class BuskerReelsServiceImpl implements BuskerReelsService {
     }
 
     /**
+     * Reels 무한스크롤 조회
+     * @param requestScrollReelsDto
+     * @return
+     */
+    @Override
+    public ResponseScrollReelsDto getReelsScrollList(RequestScrollReelsDto requestScrollReelsDto) {
+        log.info(requestScrollReelsDto.toString());
+        Instant cursorCreatedAt = null;
+        if (requestScrollReelsDto.getLastCreatedAt() != null && !requestScrollReelsDto.getLastCreatedAt().isBlank()) {
+            log.info(requestScrollReelsDto.getLastCreatedAt());
+            cursorCreatedAt = Instant.parse(requestScrollReelsDto.getLastCreatedAt()).minusMillis(1);
+            log.info(cursorCreatedAt.toString());
+        }
+
+        int pageSize = requestScrollReelsDto.getSize() > 0 ? requestScrollReelsDto.getSize() : 5;
+        int querySize = pageSize + 1;
+
+        List<BuskerFeed> feedList = reelsRepository.findWithScrollByTime(
+                requestScrollReelsDto.getBuskerUuid(),
+                cursorCreatedAt,
+                querySize
+        );
+
+        CursorPage<BuskerFeed> cursorPage = CursorPage.of(
+                feedList,
+                pageSize,
+                feed -> feed.getCreatedAt().toString()
+        );
+
+        return ResponseScrollReelsDto.from(cursorPage);
+    }
+
+
+
+    /**
      * Reels 수정
      * @param requestUpdateReelsDto
      */
     @Override
+    @Transactional
     public void updateReels(RequestUpdateReelsDto requestUpdateReelsDto) {
         UpdateResult updateResult = reelsRepository.updateReels(
                 requestUpdateReelsDto.getId(), requestUpdateReelsDto
