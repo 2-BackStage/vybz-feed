@@ -2,7 +2,6 @@ package back.vybz.feed_service.busker.infrastructure.repository;
 
 import back.vybz.feed_service.busker.domain.mongodb.Notice;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,7 +15,7 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public List<Notice> findWithScroll(String sortType, ObjectId lastId, int size){
+    public List<Notice> findWithScroll(String sortType, String lastId, int size){
         Query query = new Query();
 
         if (lastId != null){

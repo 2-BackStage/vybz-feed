@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponseAddNoticeDto {
 
-    private ObjectId id;
+    private String id;
     private String userUuid;
     private String title;
     private String description;
@@ -29,7 +29,7 @@ public class ResponseAddNoticeDto {
     private Instant createdAt;
 
     @Builder
-    public ResponseAddNoticeDto(ObjectId id,
+    public ResponseAddNoticeDto(String id,
                                 String userUuid,
                                 String title,
                                 String description,

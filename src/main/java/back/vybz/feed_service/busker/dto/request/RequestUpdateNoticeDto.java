@@ -63,7 +63,7 @@ public class RequestUpdateNoticeDto {
 
     public Notice toEntity() {
         return Notice.builder()
-                .id(new ObjectId(this.id))
+                .id(id)
                 .userUuid(userUuid)
                 .title(title)
                 .description(description)

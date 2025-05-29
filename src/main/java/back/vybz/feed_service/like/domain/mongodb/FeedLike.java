@@ -19,11 +19,11 @@ import java.time.Instant;
 public class FeedLike {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     // 피드 id
     @Field(name = "feed_id")
-    private ObjectId feedId;
+    private String feedId;
 
     // 피드 타입
     @Field(name = "feed_type")
@@ -46,8 +46,8 @@ public class FeedLike {
     private Instant updatedAt;
 
     @Builder
-    public FeedLike(ObjectId id,
-                    ObjectId feedId,
+    public FeedLike(String id,
+                    String feedId,
                     FeedType feedType,
                     String userUuid,
                     String buskerUuid,

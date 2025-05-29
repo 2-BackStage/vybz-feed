@@ -19,11 +19,11 @@ import java.util.List;
 public class BuskerFeed {
 
     @Id
-    private ObjectId id;
+    private String id;
 
-    // 피드 작성자 uuid
-    @Field(name = "user_uuid")
-    private String userUuid;
+    // 버스커 UUID
+    @Field(name = "busker_uuid")
+    private String buskerUuid;
 
     // 피드 내용
     @Field(name = "content")
@@ -44,6 +44,9 @@ public class BuskerFeed {
     // 파일 리스트
     @Field(name = "file_list")
     private List<FeedFile> fileList;
+
+    @Field(name = "thumbnail_url")
+    private String thumbnailUrl;
 
     // 위치
     @Field(name = "location")
@@ -66,14 +69,23 @@ public class BuskerFeed {
     private Instant updatedAt;
 
     @Builder
-    public BuskerFeed(String userUuid, String content, List<String> humanTag, List<String> hashTag,
-                      FeedType feedType, List<FeedFile> fileList, Location location) {
-        this.userUuid = userUuid;
+    public BuskerFeed( String id,
+                      String buskerUuid,
+                      String content,
+                      List<String> humanTag,
+                      List<String> hashTag,
+                      FeedType feedType,
+                      List<FeedFile> fileList,
+                      String thumbnailUrl,
+                      Location location) {
+        this.id = id;
+        this.buskerUuid = buskerUuid;
         this.content = content;
         this.humanTag = humanTag;
         this.hashTag = hashTag;
         this.feedType = feedType;
         this.fileList = fileList;
+        this.thumbnailUrl = thumbnailUrl;
         this.location = location;
     }
 

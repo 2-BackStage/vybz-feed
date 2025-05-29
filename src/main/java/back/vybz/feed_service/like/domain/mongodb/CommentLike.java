@@ -20,11 +20,11 @@ import java.time.Instant;
 public class CommentLike {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     // 피드 id
     @Field(name = "feed_id")
-    private ObjectId feedId;
+    private String feedId;
 
     // 피드 타입
     @Field(name = "target_type")
@@ -32,7 +32,7 @@ public class CommentLike {
 
     // 댓글 id
     @Field(name = "comment_id")
-    private ObjectId commentId;
+    private String commentId;
 
     //댓글작성자 uuid
     @Field(name = " writer_uuid")
@@ -48,7 +48,7 @@ public class CommentLike {
 
     //대댓글 id
     @Field(name = " parent_comment_id")
-    private ObjectId parentCommentId;
+    private String parentCommentId;
 
     @CreatedDate
     @Field(name = "created_at")
@@ -59,14 +59,14 @@ public class CommentLike {
     private Instant updatedAt;
 
     @Builder
-    public CommentLike(ObjectId id,
-                       ObjectId feedId,
+    public CommentLike(String id,
+                       String feedId,
                        TargetType targetType,
-                       ObjectId commentId,
+                       String commentId,
                        String writerUuid,
                        String userUuid,
                        String buskerUuid,
-                       ObjectId parentCommentId,
+                       String parentCommentId,
                        Instant createdAt,
                        Instant updatedAt) {
         this.id = id;

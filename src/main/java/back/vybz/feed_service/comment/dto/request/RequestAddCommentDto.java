@@ -37,7 +37,7 @@ public class RequestAddCommentDto {
     }
     public Comment toEntity() {
         return Comment.builder()
-                .feedId(new ObjectId(this.feedId))
+                .feedId(this.feedId)
                 .targetType(this.targetType)
                 .writerUuid(this.writerUuid)
                 .userUuid(this.userUuid)

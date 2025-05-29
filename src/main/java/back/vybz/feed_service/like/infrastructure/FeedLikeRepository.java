@@ -7,5 +7,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface FeedLikeRepository extends MongoRepository<FeedLike, ObjectId>, FeedLikeRepositoryCustom {
-    Optional<FeedLike> findByFeedIdAndUserUuid(ObjectId feedId, String userUuid);
+    Optional<FeedLike> findByFeedIdAndUserUuid(String feedId, String userUuid);
 }

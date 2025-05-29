@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface NoticeRepository extends MongoRepository<Notice, ObjectId> , NoticeRepositoryCustom {
-    Optional<Notice> findById(ObjectId id);
+public interface NoticeRepository extends MongoRepository<Notice, String> , NoticeRepositoryCustom {
+    Optional<Notice> findById(String id);
 }
