@@ -45,6 +45,9 @@ dependencies {
 	//kafka
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	implementation 'org.springframework.kafka:spring-kafka'
+
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
 }
 dependencyManagement {
 	imports {

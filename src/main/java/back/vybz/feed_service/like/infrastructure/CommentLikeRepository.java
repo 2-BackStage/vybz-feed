@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface CommentLikeRepository extends MongoRepository<CommentLike, ObjectId> , CommentLikeRepositoryCustom {
+public interface CommentLikeRepository extends MongoRepository<CommentLike, String> , CommentLikeRepositoryCustom {
     Optional<CommentLike> findByCommentIdAndUserUuid(String commentId, String userUuid);
 }

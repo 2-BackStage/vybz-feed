@@ -20,7 +20,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
@@ -29,6 +28,7 @@ public class CommentServiceImpl implements CommentService{
     * 댓글 작성
     */
     @Override
+    @Transactional
     public ResponseAddCommentDto createComment(RequestAddCommentDto requestAddCommentDto) {
         Comment comment = requestAddCommentDto.toEntity();
         Comment savedComment = commentRepository.save(comment);
@@ -40,17 +40,17 @@ public class CommentServiceImpl implements CommentService{
     * 댓글 조회
      */
     @Override
-    public ResponseScrollCommentDto getScrollCommentList(RequestScrollCommentDto requestScrollCommentDto){
-        ObjectId cursor = (requestScrollCommentDto.getLastId() != null && !requestScrollCommentDto.getLastId().isBlank())
-                ? new ObjectId(requestScrollCommentDto.getLastId())
-                : null;
+    public ResponseScrollCommentDto getScrollCommentList(RequestScrollCommentDto requestScrollCommentDto) {
+        String cursor = requestScrollCommentDto.getLastId();
 
         List<Comment> comments = commentRepository.findCommentsWithScroll(
-                requestScrollCommentDto.getFeedId(), requestScrollCommentDto.getTargetType(), cursor, requestScrollCommentDto.getSize() + 1
+                requestScrollCommentDto.getFeedId(),
+                requestScrollCommentDto.getTargetType(),
+                cursor,
+                requestScrollCommentDto.getSize() + 1
         );
 
-        CursorPage<Comment> cursorPage = CursorPage.of(comments, requestScrollCommentDto.getSize(), c -> c.getId().toHexString());
-
+        CursorPage<Comment> cursorPage = CursorPage.of(comments, requestScrollCommentDto.getSize(), Comment::getId);
         return ResponseScrollCommentDto.from(cursorPage);
     }
 
@@ -59,8 +59,10 @@ public class CommentServiceImpl implements CommentService{
      * 댓글 수정
      */
     @Override
+    @Transactional
     public void updateComment(RequestUpdateCommentDto requestUpdateCommentDto) {
-        ObjectId commentId = new ObjectId(requestUpdateCommentDto.getCommentId());
+        String commentId = requestUpdateCommentDto.getCommentId();
+
         UpdateResult result = commentRepository.updateComment(
                 commentId,
                 requestUpdateCommentDto.getWriterUuid(),
@@ -76,7 +78,7 @@ public class CommentServiceImpl implements CommentService{
      */
     @Override
     public void deleteComment(String commentId, String writerUuid) {
-        Comment comment = commentRepository.findById(new ObjectId(commentId))
+        Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_COMMENT_OR_NO_AUTH));
 
         if (!comment.getWriterUuid().equals(writerUuid)) {

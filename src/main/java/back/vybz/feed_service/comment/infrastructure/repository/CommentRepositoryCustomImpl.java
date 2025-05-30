@@ -31,7 +31,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
     }
 
     @Override
-    public List<Comment> findCommentsWithScroll(String feedId, TargetType targetType, ObjectId lastId, int size){
+    public List<Comment> findCommentsWithScroll(String feedId, TargetType targetType, String lastId, int size){
         Query query = new Query();
 
         query.addCriteria(Criteria.where("feed_id").is(new ObjectId(feedId))
