@@ -51,6 +51,8 @@ public enum BaseResponseStatus {
     REELS_CREATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "릴스 등록 중 오류가 발생했습니다."),
     REELS_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "릴스 수정 중 오류가 발생했습니다."),
     REELS_NOT_FOUND(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 릴스입니다."),
+    NO_EXIST_FEED(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 피드입니다."),
+
 
 
     /**
