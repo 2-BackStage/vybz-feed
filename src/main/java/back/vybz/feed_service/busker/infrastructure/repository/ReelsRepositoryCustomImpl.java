@@ -46,7 +46,6 @@ public class ReelsRepositoryCustomImpl implements ReelsRepositoryCustom {
     public List<BuskerFeed> findWithScrollByTime(String buskerUuid, Instant lastCreatedAt, int size) {
         Criteria criteria = Criteria.where("feed_type").is("REELS");
 
-        log.info("@@@@ ", lastCreatedAt);
 
         if (buskerUuid != null && !buskerUuid.isBlank()) {
             criteria = criteria.and("busker_uuid").is(buskerUuid);

@@ -75,7 +75,6 @@ public class BuskerNoticeServiceImpl implements BuskerNoticeService {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_NOTICE));
 
-        // 수정하려는 내용이 반영된 새 엔티티 저장
         noticeRepository.save(requestUpdateNoticeDto.toEntity());
     }
 
