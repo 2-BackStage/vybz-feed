@@ -15,8 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestAddNoticeVo {
 
-    private String writerUuid;
-    private WriterType writerType;
     private String title;
     private String content;
     private String location;
@@ -28,9 +26,7 @@ public class RequestAddNoticeVo {
     private FeedType feedType;
 
     @Builder
-    public RequestAddNoticeVo(String writerUuid,
-                              WriterType writerType,
-                              String title,
+    public RequestAddNoticeVo(String title,
                               String content,
                               String location,
                               List<String> hashTag,
@@ -39,8 +35,6 @@ public class RequestAddNoticeVo {
                               String startedAt,
                               String endedAt,
                               FeedType feedType) {
-        this.writerUuid = writerUuid;
-        this.writerType = writerType;
         this.title = title;
         this.content = content;
         this.location = location;

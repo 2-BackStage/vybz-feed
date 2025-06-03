@@ -4,7 +4,7 @@ import back.vybz.feed_service.common.exception.BaseException;
 import back.vybz.feed_service.common.exception.BaseResponseStatus;
 import back.vybz.feed_service.feed.domain.mongodb.Feed;
 import back.vybz.feed_service.feed.dto.request.RequestAddNoticeDto;
-//import back.vybz.feed_service.feed.dto.request.RequestUpdateNoticeDto;
+import back.vybz.feed_service.feed.dto.request.RequestUpdateNoticeDto;
 import back.vybz.feed_service.feed.dto.response.ResponseAddNoticeDto;
 import back.vybz.feed_service.feed.infrastructure.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +38,14 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     @Transactional
     public void updateNotice(RequestUpdateNoticeDto requestUpdateNoticeDto) {
-        String noticeId = requestUpdateNoticeDto.getId();
-        Notice notice = noticeRepository.findById(noticeId)
+        Feed feed = noticeRepository.findById(requestUpdateNoticeDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_NOTICE));
 
-        noticeRepository.save(requestUpdateNoticeDto.toEntity());
+        if (!feed.getWriterUuid().equals(requestUpdateNoticeDto.getWriterUuid())) {
+            throw new BaseException(BaseResponseStatus.NO_AUTHORIZATION_TO_UPDATE_NOTICE);
+        }
+
+        noticeRepository.updateNoticeFieldsById(requestUpdateNoticeDto.getId(), requestUpdateNoticeDto);
     }
 
     /**
@@ -50,9 +53,14 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    public void deleteNotice(String noticeId) {
-        Notice notice = noticeRepository.findById(noticeId)
+    public void deleteNotice(String noticeId, String writerUuid) {
+        Feed feed = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_NOTICE));
-        noticeRepository.delete(notice);
+
+        if (!feed.getWriterUuid().equals(writerUuid)) {
+            throw new BaseException(BaseResponseStatus.NO_AUTHORIZATION_TO_DELETE_NOTICE);
+        }
+
+        noticeRepository.delete(feed);
     }
 }

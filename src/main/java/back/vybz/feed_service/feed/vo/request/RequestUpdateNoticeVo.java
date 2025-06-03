@@ -1,42 +1,42 @@
 package back.vybz.feed_service.feed.vo.request;
 
 import back.vybz.feed_service.feed.domain.mongodb.FeedFile;
+import back.vybz.feed_service.feed.domain.mongodb.TaggedHuman;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class RequestUpdateNoticeVo {
-    private String id;
-    private String userUuid;
+
     private String title;
-    private String description;
-    private Location location;
+    private String content;
+    private String location;
+    private List<String> hashTag;
+    private List<TaggedHuman> humanTag;
     private List<FeedFile> fileList;
-    private Instant startedAt;
-    private Instant endedAt;
+    private String startedAt;
+    private String endedAt;
 
     @Builder
-    private RequestUpdateNoticeVo(String id,
-                                  String userUuid,
-                                  String title,
-                                  String description,
-                                  Location location,
-                                  List<FeedFile> fileList,
-                                  Instant startedAt,
-                                  Instant endedAt) {
-        this.id = id;
-        this.userUuid = userUuid;
+    public RequestUpdateNoticeVo(String title,
+                                 String content,
+                                 String location,
+                                 List<String> hashTag,
+                                 List<TaggedHuman> humanTag,
+                                 List<FeedFile> fileList,
+                                 String startedAt,
+                                 String endedAt) {
         this.title = title;
-        this.description = description;
+        this.content = content;
         this.location = location;
+        this.hashTag = hashTag;
+        this.humanTag = humanTag;
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
     }
-
 }

@@ -26,7 +26,6 @@ public class ResponseAddNoticeDto {
     private List<FeedFile> fileList;
     private String startedAt;
     private String endedAt;
-    private FeedType feedType;
 
     @Builder
     public ResponseAddNoticeDto(String id,
@@ -52,7 +51,6 @@ public class ResponseAddNoticeDto {
         this.fileList = fileList;
         this.startedAt = formatInstant(startedAt);
         this.endedAt = formatInstant(endedAt);
-        this.feedType = feedType;
     }
 
     public static ResponseAddNoticeDto from(Feed feed) {
@@ -68,7 +66,6 @@ public class ResponseAddNoticeDto {
                 .fileList(feed.getFileList())
                 .startedAt(feed.getStartedAt())
                 .endedAt(feed.getEndedAt())
-                .feedType(feed.getFeedType())
                 .build();
     }
 
@@ -85,7 +82,6 @@ public class ResponseAddNoticeDto {
                 .fileList(fileList)
                 .startedAt(startedAt)
                 .endedAt(endedAt)
-                .feedType(feedType)
                 .build();
     }
 

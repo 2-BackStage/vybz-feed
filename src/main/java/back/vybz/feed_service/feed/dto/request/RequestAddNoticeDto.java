@@ -27,7 +27,6 @@ public class RequestAddNoticeDto {
     private List<FeedFile> fileList;
     private String startedAt;
     private String endedAt;
-    private FeedType feedType;
 
     @Builder
     public RequestAddNoticeDto(String writerUuid,
@@ -50,10 +49,24 @@ public class RequestAddNoticeDto {
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
-        this.feedType = FeedType.NOTICE;
     }
 
-    public Feed toEntity(){
+    public static RequestAddNoticeDto from(RequestAddNoticeVo requestAddNoticeVo, String writerUuid) {
+        return RequestAddNoticeDto.builder()
+                .writerUuid(writerUuid)
+                .writerType(WriterType.BUSKER)
+                .title(requestAddNoticeVo.getTitle())
+                .content(requestAddNoticeVo.getContent())
+                .location(requestAddNoticeVo.getLocation())
+                .hashTag(requestAddNoticeVo.getHashTag())
+                .humanTag(requestAddNoticeVo.getHumanTag())
+                .fileList(requestAddNoticeVo.getFileList())
+                .startedAt(requestAddNoticeVo.getStartedAt())
+                .endedAt(requestAddNoticeVo.getEndedAt())
+                .build();
+    }
+
+    public Feed toEntity() {
         return Feed.builder()
                 .writerUuid(writerUuid)
                 .writerType(writerType)
@@ -65,21 +78,7 @@ public class RequestAddNoticeDto {
                 .fileList(fileList)
                 .startedAt(parseToInstant(startedAt))
                 .endedAt(parseToInstant(endedAt))
-                .feedType(feedType)
-                .build();
-    }
-    public static RequestAddNoticeDto from(RequestAddNoticeVo requestAddNoticeVo) {
-        return RequestAddNoticeDto.builder()
-                .writerUuid(requestAddNoticeVo.getWriterUuid())
-                .writerType(requestAddNoticeVo.getWriterType())
-                .title(requestAddNoticeVo.getTitle())
-                .content(requestAddNoticeVo.getContent())
-                .location(requestAddNoticeVo.getLocation())
-                .hashTag(requestAddNoticeVo.getHashTag())
-                .humanTag(requestAddNoticeVo.getHumanTag())
-                .fileList(requestAddNoticeVo.getFileList())
-                .startedAt(requestAddNoticeVo.getStartedAt())
-                .endedAt(requestAddNoticeVo.getEndedAt())
+                .feedType(FeedType.NOTICE)
                 .build();
     }
     private Instant parseToInstant(String value) {

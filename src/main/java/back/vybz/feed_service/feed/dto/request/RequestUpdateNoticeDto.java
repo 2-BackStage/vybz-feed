@@ -1,72 +1,68 @@
 package back.vybz.feed_service.feed.dto.request;
 
 import back.vybz.feed_service.feed.domain.mongodb.FeedFile;
+import back.vybz.feed_service.feed.domain.mongodb.TaggedHuman;
+import back.vybz.feed_service.feed.domain.mongodb.WriterType;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateNoticeVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 public class RequestUpdateNoticeDto {
     private String id;
-    private String userUuid;
+    private String writerUuid;
+    private WriterType writerType;
     private String title;
-    private String description;
-    private Location location;
+    private String content;
+    private String location;
+    private List<String> hashTag;
+    private List<TaggedHuman> humanTag;
     private List<FeedFile> fileList;
-    private Instant startedAt;
-    private Instant endedAt;
+    private String startedAt;
+    private String endedAt;
 
     @Builder
-    private RequestUpdateNoticeDto(String id,
-                                   String userUuid,
-                                   String title,
-                                   String description,
-                                   Location location,
-                                   List<FeedFile> fileList,
-                                   Instant startedAt,
-                                   Instant endedAt) {
+    public RequestUpdateNoticeDto(String id,
+                                  String writerUuid,
+                                  String title,
+                                  String content,
+                                  String location,
+                                  List<String> hashTag,
+                                  List<TaggedHuman> humanTag,
+                                  List<FeedFile> fileList,
+                                  String startedAt,
+                                  String endedAt) {
         this.id = id;
-        this.userUuid = userUuid;
+        this.writerUuid = writerUuid;
+        this.writerType = WriterType.BUSKER;
         this.title = title;
-        this.description = description;
+        this.content = content;
         this.location = location;
+        this.hashTag = hashTag;
+        this.humanTag = humanTag;
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
     }
 
-
     public static RequestUpdateNoticeDto of(String id,
-                                            String userUuid,
-                                            RequestUpdateNoticeVo requestUpdateNoticeVo) {
+                                            RequestUpdateNoticeVo vo,
+                                            String writerUuid) {
         return RequestUpdateNoticeDto.builder()
                 .id(id)
-                .userUuid(userUuid)
-                .title(requestUpdateNoticeVo.getTitle())
-                .description(requestUpdateNoticeVo.getDescription())
-                .location(requestUpdateNoticeVo.getLocation())
-                .fileList(requestUpdateNoticeVo.getFileList())
-                .startedAt(requestUpdateNoticeVo.getStartedAt())
-                .endedAt(requestUpdateNoticeVo.getEndedAt())
-                .build();
-    }
-
-
-    public Notice toEntity() {
-        return Notice.builder()
-                .id(id)
-                .userUuid(userUuid)
-                .title(title)
-                .description(description)
-                .location(location)
-                .fileList(fileList)
-                .startedAt(startedAt)
-                .endedAt(endedAt)
+                .writerUuid(writerUuid)
+                .title(vo.getTitle())
+                .content(vo.getContent())
+                .location(vo.getLocation())
+                .hashTag(vo.getHashTag())
+                .humanTag(vo.getHumanTag())
+                .fileList(vo.getFileList())
+                .startedAt(vo.getStartedAt())
+                .endedAt(vo.getEndedAt())
                 .build();
     }
 }

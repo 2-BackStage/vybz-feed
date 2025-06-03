@@ -7,5 +7,5 @@ import back.vybz.feed_service.feed.dto.response.ResponseAddNoticeDto;
 public interface NoticeService {
     ResponseAddNoticeDto createNotice(RequestAddNoticeDto requestAddNoticeDto);
     void updateNotice(RequestUpdateNoticeDto requestUpdateNoticeDto);
-    void deleteNotice(String noticeId);
+    void deleteNotice(String noticeId,String writerUuid);
 }
