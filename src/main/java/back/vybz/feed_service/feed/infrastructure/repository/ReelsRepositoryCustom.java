@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.util.List;
 
 public interface ReelsRepositoryCustom {
-    UpdateResult updateReels(String feedId, RequestUpdateReelsDto requestUpdateReelsDto);
-    List<Feed> findWithScrollByTime(String buskerUuid, Instant lastCreatedAt, int size);
+    void updateReelsById(String id, RequestUpdateReelsDto requestUpdateReelsDto);
 
 }

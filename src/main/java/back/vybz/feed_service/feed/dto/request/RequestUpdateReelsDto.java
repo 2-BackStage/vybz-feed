@@ -1,5 +1,8 @@
 package back.vybz.feed_service.feed.dto.request;
 
+import back.vybz.feed_service.feed.domain.mongodb.FeedFile;
+import back.vybz.feed_service.feed.domain.mongodb.TaggedHuman;
+import back.vybz.feed_service.feed.domain.mongodb.WriterType;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateReelsVo;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,37 +17,49 @@ import java.util.Map;
 public class RequestUpdateReelsDto {
 
     private String id;
+    private String writerUuid;
+    private WriterType writerType;
+    private String title;
     private String content;
-    private List<String> humanTag;
+    private String location;
     private List<String> hashTag;
+    private List<TaggedHuman> humanTag;
+    private List<FeedFile> fileList;
 
-    @Builder
+  @Builder
     public RequestUpdateReelsDto(String id,
+                                 String writerUuid,
+                                 String title,
                                  String content,
-                                 List<String> humanTag,
-                                 List<String> hashTag) {
+                                 String location,
+                                 List<String> hashTag,
+                                 List<TaggedHuman> humanTag,
+                                 List<FeedFile> fileList) {
         this.id = id;
+        this.writerUuid = writerUuid;
+        this.writerType = WriterType.BUSKER;
+        this.title = title;
         this.content = content;
-        this.humanTag = humanTag;
+        this.location = location;
         this.hashTag = hashTag;
+        this.humanTag = humanTag;
+        this.fileList = fileList;
     }
 
-    public static RequestUpdateReelsDto from(String id,
-                                             RequestUpdateReelsVo requestUpdateReelsVo) {
+    public static RequestUpdateReelsDto of(String id,
+                                             RequestUpdateReelsVo requestUpdateReelsVo,
+                                             String writerUuid) {
         {
             return RequestUpdateReelsDto.builder()
                     .id(id)
+                    .writerUuid(writerUuid)
+                    .title(requestUpdateReelsVo.getTitle())
                     .content(requestUpdateReelsVo.getContent())
-                    .humanTag(requestUpdateReelsVo.getHumanTag())
+                    .location(requestUpdateReelsVo.getLocation())
                     .hashTag(requestUpdateReelsVo.getHashTag())
+                    .humanTag(requestUpdateReelsVo.getHumanTag())
+                    .fileList(requestUpdateReelsVo.getFileList())
                     .build();
         }
-    }
-    public Map<String, Object> toUpdateMap() {
-        Map<String, Object> updateMap = new HashMap<>();
-        if (content != null) updateMap.put("content", content);
-        if (humanTag != null) updateMap.put("humanTag", humanTag);
-        if (hashTag != null) updateMap.put("hashTag", hashTag);
-        return updateMap;
     }
 }

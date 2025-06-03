@@ -50,19 +50,19 @@ public class RequestUpdateNoticeDto {
     }
 
     public static RequestUpdateNoticeDto of(String id,
-                                            RequestUpdateNoticeVo vo,
+                                            RequestUpdateNoticeVo requestUpdateNoticeVo,
                                             String writerUuid) {
         return RequestUpdateNoticeDto.builder()
                 .id(id)
                 .writerUuid(writerUuid)
-                .title(vo.getTitle())
-                .content(vo.getContent())
-                .location(vo.getLocation())
-                .hashTag(vo.getHashTag())
-                .humanTag(vo.getHumanTag())
-                .fileList(vo.getFileList())
-                .startedAt(vo.getStartedAt())
-                .endedAt(vo.getEndedAt())
+                .title(requestUpdateNoticeVo.getTitle())
+                .content(requestUpdateNoticeVo.getContent())
+                .location(requestUpdateNoticeVo.getLocation())
+                .hashTag(requestUpdateNoticeVo.getHashTag())
+                .humanTag(requestUpdateNoticeVo.getHumanTag())
+                .fileList(requestUpdateNoticeVo.getFileList())
+                .startedAt(requestUpdateNoticeVo.getStartedAt())
+                .endedAt(requestUpdateNoticeVo.getEndedAt())
                 .build();
     }
 }

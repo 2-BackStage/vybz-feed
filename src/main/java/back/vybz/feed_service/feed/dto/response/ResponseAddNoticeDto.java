@@ -38,8 +38,7 @@ public class ResponseAddNoticeDto {
                                 List<TaggedHuman> humanTag,
                                 List<FeedFile> fileList,
                                 Instant startedAt,
-                                Instant endedAt,
-                                FeedType feedType) {
+                                Instant endedAt) {
         this.id = id;
         this.writerUuid = writerUuid;
         this.writerType = writerType;

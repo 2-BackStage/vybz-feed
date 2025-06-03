@@ -36,12 +36,6 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
             );
 
             Update update = new Update();
-        if (requestUpdateNoticeDto.getWriterUuid() != null) {
-            update.set("writerUuid", requestUpdateNoticeDto.getWriterUuid());
-        }
-        if (requestUpdateNoticeDto.getWriterType() != null) {
-            update.set("writerType", requestUpdateNoticeDto.getWriterType());
-        }
         if (requestUpdateNoticeDto.getTitle() != null) {
             update.set("title", requestUpdateNoticeDto.getTitle());
         }

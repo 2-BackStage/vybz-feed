@@ -1,9 +1,7 @@
 package back.vybz.feed_service.feed.dto.request;
 
-import back.vybz.feed_service.feed.domain.mongodb.FeedFile;
-import back.vybz.feed_service.feed.domain.mongodb.FeedType;
-import back.vybz.feed_service.feed.domain.mongodb.TaggedHuman;
-import back.vybz.feed_service.feed.domain.mongodb.WriterType;
+import back.vybz.feed_service.feed.domain.mongodb.*;
+import back.vybz.feed_service.feed.vo.request.RequestAddReelsVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +20,6 @@ public class RequestAddReelsDto {
     private List<String> hashTag;
     private List<TaggedHuman> humanTag;
     private List<FeedFile> fileList;
-    private FeedType feedType;
 
     @Builder
     public RequestAddReelsDto(String writerUuid,
@@ -41,7 +38,32 @@ public class RequestAddReelsDto {
         this.hashTag = hashTag;
         this.humanTag = humanTag;
         this.fileList = fileList;
-        this.feedType = FeedType.REELS;
+    }
+
+    public static RequestAddReelsDto from(RequestAddReelsVo requestAddReelsVo, String writerUuid){
+        return RequestAddReelsDto.builder()
+                .writerUuid(writerUuid)
+                .writerType(WriterType.BUSKER)
+                .title(requestAddReelsVo.getTitle())
+                .content(requestAddReelsVo.getContent())
+                .location(requestAddReelsVo.getLocation())
+                .hashTag(requestAddReelsVo.getHashTag())
+                .humanTag(requestAddReelsVo.getHumanTag())
+                .fileList(requestAddReelsVo.getFileList())
+                .build();
+    }
+    public Feed toEntity(){
+        return Feed.builder()
+                .writerUuid(writerUuid)
+                .writerType(writerType)
+                .title(title)
+                .content(content)
+                .location(location)
+                .hashTag(hashTag)
+                .humanTag(humanTag)
+                .fileList(fileList)
+                .feedType(FeedType.REELS)
+                .build();
     }
 
 }

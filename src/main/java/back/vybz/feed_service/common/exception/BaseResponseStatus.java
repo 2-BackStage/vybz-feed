@@ -45,6 +45,9 @@ public enum BaseResponseStatus {
     INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, false, 410, "유효하지 않은 Access Token입니다."),
     NO_EXIST_NOTICE(HttpStatus.NOT_FOUND,false,404, "존재하지 않는 공지사항입니다."),
     NO_EXIST_COMMENT_OR_NO_AUTH(HttpStatus.NOT_FOUND, false,404,"댓글이 존재하지 않거나 권한이 없습니다."),
+    REELS_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 411, "릴스 저장에 실패했습니다."),
+    NO_AUTHORIZATION_TO_UPDATE_REELS(HttpStatus.FORBIDDEN, false, 412, "이 릴스를 수정할 권한이 없습니다."),
+    NO_AUTHORIZATION_TO_DELETE_REELS(HttpStatus.FORBIDDEN, false, 413, "이 릴스를 삭제할 권한이 없습니다."),
 
     /**
      * 500: 서버 에러

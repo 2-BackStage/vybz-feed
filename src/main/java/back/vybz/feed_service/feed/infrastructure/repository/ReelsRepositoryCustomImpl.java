@@ -1,8 +1,8 @@
 package back.vybz.feed_service.feed.infrastructure.repository;
 
 import back.vybz.feed_service.feed.domain.mongodb.Feed;
+import back.vybz.feed_service.feed.domain.mongodb.FeedType;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateReelsDto;
-import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -26,41 +26,30 @@ public class ReelsRepositoryCustomImpl implements ReelsRepositoryCustom {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public UpdateResult updateReels(String feedId, RequestUpdateReelsDto requestUpdateReelsDto){
-        Query query = new Query(Criteria.where("_id").is(new ObjectId(feedId)));
-
-        Map<String, Object> updateFields = new HashMap<>();
-        if (requestUpdateReelsDto.getContent() != null) updateFields.put("content", requestUpdateReelsDto.getContent());
-        if (requestUpdateReelsDto.getHumanTag() != null) updateFields.put("humanTag", requestUpdateReelsDto.getHumanTag());
-        if (requestUpdateReelsDto.getHashTag() != null) updateFields.put("hashTag", requestUpdateReelsDto.getHashTag());
-
-        updateFields.put("updatedAt", Instant.now());
-
+    public void updateReelsById(String id, RequestUpdateReelsDto requestUpdateReelsDto) {
+        Query query = new Query(
+                Criteria.where("_id").is(id)
+                        .and("feedType").is(FeedType.REELS)
+        );
         Update update = new Update();
-        updateFields.forEach(update::set);
-
-        return mongoTemplate.updateFirst(query, update, Feed.class);
-    }
-
-    @Override
-    public List<Feed> findWithScrollByTime(String buskerUuid, Instant lastCreatedAt, int size) {
-        Criteria criteria = Criteria.where("feed_type").is("REELS");
-
-
-        if (buskerUuid != null && !buskerUuid.isBlank()) {
-            criteria = criteria.and("busker_uuid").is(buskerUuid);
+        if (requestUpdateReelsDto.getContent() != null) {
+            update.set("content", requestUpdateReelsDto.getContent());
         }
-
-        if (lastCreatedAt != null) {
-            criteria = criteria.and("created_at").lt(lastCreatedAt);
+        if (requestUpdateReelsDto.getHumanTag() != null) {
+            update.set("humanTag", requestUpdateReelsDto.getHumanTag());
         }
+        if (requestUpdateReelsDto.getHashTag() != null) {
+            update.set("hashTag", requestUpdateReelsDto.getHashTag());
+        }
+        if (requestUpdateReelsDto.getFileList() != null) {
+            update.set("fileList", requestUpdateReelsDto.getFileList());
+        }
+        if (requestUpdateReelsDto.getLocation() != null) {
+            update.set("location", requestUpdateReelsDto.getLocation());
+        }
+        mongoTemplate.updateFirst(query, update, Feed.class);
 
-        Query query = new Query(criteria)
-                .limit(size + 1)
-                .with(Sort.by(Sort.Direction.DESC, "created_at"));
 
-        List<Feed> result = mongoTemplate.find(query, Feed.class);
-        return result;
     }
 
 

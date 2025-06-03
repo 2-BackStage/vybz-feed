@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface ReelsRepository extends MongoRepository<Feed, String>, ReelsRepositoryCustom {
-    Optional<Feed> findById(String id);
+
 }
