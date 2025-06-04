@@ -21,17 +21,17 @@ public class BuskerNoticeController {
 
     private final NoticeService noticeService;
 
-    //로그인이 필요한 API이므로, 추후에 인증 필터를 적용할 예정입니다.
+
     @Operation(
             summary = "공지 등록 API",
             description = "버스커 공지를 등록하는 API입니다.",
             tags = {"BUSKER-SERVICE"}
     )
     @PostMapping("/notice")
-    public BaseResponseEntity<ResponseAddNoticeVo> createNotice(//HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<ResponseAddNoticeVo> createNotice(HttpServletRequest httpServletRequest,
                                                                 @RequestBody RequestAddNoticeVo requestAddNoticeVo){
-        String writerUuid = "test-writer-uuid";
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+
+        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         RequestAddNoticeDto requestAddNoticeDto = RequestAddNoticeDto.from(requestAddNoticeVo, writerUuid);
         ResponseAddNoticeDto responseAddNoticeDto = noticeService.createNotice(requestAddNoticeDto);
         return new BaseResponseEntity<>(responseAddNoticeDto.toVo());
@@ -44,11 +44,10 @@ public class BuskerNoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PutMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> updateNotice(//HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> updateNotice(HttpServletRequest httpServletRequest,
                                                  @PathVariable("noticeId") String noticeId,
                                                  @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        String writerUuid = "test-writer-uuid";
+        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         noticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId,requestUpdateNoticeVo, writerUuid));
         return new BaseResponseEntity<>();
     }
@@ -59,10 +58,10 @@ public class BuskerNoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @DeleteMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> deleteNotice(//HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> deleteNotice(HttpServletRequest httpServletRequest,
                                                  @PathVariable("noticeId") String noticeId) {
-        String writerUuid = "test-writer-uuid";
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+
+        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         noticeService.deleteNotice(noticeId, writerUuid);
         return new BaseResponseEntity<>();
     }
