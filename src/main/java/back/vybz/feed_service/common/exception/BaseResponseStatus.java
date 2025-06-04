@@ -34,6 +34,8 @@ public enum BaseResponseStatus {
     WRONG_TOKEN(HttpStatus.UNAUTHORIZED, false, 401, "토큰이 유효하지 않습니다"),
     NO_SIGN_IN(HttpStatus.UNAUTHORIZED, false, 402, "로그인을 먼저 진행해주세요"),
     NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 403, "접근 권한이 없습니다"),
+    NO_AUTHORIZATION_TO_UPDATE_NOTICE(HttpStatus.FORBIDDEN,false,403, "이 공지를 수정할 권한이 없습니다."),
+    NO_AUTHORIZATION_TO_DELETE_NOTICE(HttpStatus.FORBIDDEN, false, 403, "이 공지를 삭제할 권한이 없습니다."),
     DISABLED_USER(HttpStatus.FORBIDDEN, false, 404, "비활성화된 계정입니다. 계정을 복구하시겠습니까?"),
     FAILED_TO_RESTORE(HttpStatus.INTERNAL_SERVER_ERROR, false, 405, "계정 복구에 실패했습니다. 관리자에게 문의해주세요."),
     NO_EXIST_OAUTH(HttpStatus.NOT_FOUND, false, 406, "소셜 로그인 정보가 존재하지 않습니다."),
@@ -43,6 +45,12 @@ public enum BaseResponseStatus {
     INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, false, 410, "유효하지 않은 Access Token입니다."),
     NO_EXIST_NOTICE(HttpStatus.NOT_FOUND,false,404, "존재하지 않는 공지사항입니다."),
     NO_EXIST_COMMENT_OR_NO_AUTH(HttpStatus.NOT_FOUND, false,404,"댓글이 존재하지 않거나 권한이 없습니다."),
+    REELS_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 411, "릴스 저장에 실패했습니다."),
+    NO_AUTHORIZATION_TO_UPDATE_REELS(HttpStatus.FORBIDDEN, false, 412, "이 릴스를 수정할 권한이 없습니다."),
+    NO_AUTHORIZATION_TO_DELETE_REELS(HttpStatus.FORBIDDEN, false, 413, "이 릴스를 삭제할 권한이 없습니다."),
+    FAN_FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 414, "존재하지 않는 팬 피드입니다."),
+    NO_AUTHORIZATION_TO_UPDATE_FAN_FEED(HttpStatus.FORBIDDEN, false, 415, "이 팬 피드를 수정할 권한이 없습니다."),
+    NO_AUTHORIZATION_TO_DELETE_FAN_FEED(HttpStatus.FORBIDDEN, false, 416, "이 팬 피드를 삭제할 권한이 없습니다."),
 
     /**
      * 500: 서버 에러
@@ -52,6 +60,9 @@ public enum BaseResponseStatus {
     REELS_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "릴스 수정 중 오류가 발생했습니다."),
     REELS_NOT_FOUND(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 릴스입니다."),
     NO_EXIST_FEED(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 피드입니다."),
+    NOTICE_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "공지 등록에 실패했습니다."),
+    FAN_FEED_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 501, "팬 피드 등록에 실패했습니다."),
+
 
 
 
