@@ -48,6 +48,9 @@ public enum BaseResponseStatus {
     REELS_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 411, "릴스 저장에 실패했습니다."),
     NO_AUTHORIZATION_TO_UPDATE_REELS(HttpStatus.FORBIDDEN, false, 412, "이 릴스를 수정할 권한이 없습니다."),
     NO_AUTHORIZATION_TO_DELETE_REELS(HttpStatus.FORBIDDEN, false, 413, "이 릴스를 삭제할 권한이 없습니다."),
+    FAN_FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 414, "존재하지 않는 팬 피드입니다."),
+    NO_AUTHORIZATION_TO_UPDATE_FAN_FEED(HttpStatus.FORBIDDEN, false, 415, "이 팬 피드를 수정할 권한이 없습니다."),
+    NO_AUTHORIZATION_TO_DELETE_FAN_FEED(HttpStatus.FORBIDDEN, false, 416, "이 팬 피드를 삭제할 권한이 없습니다."),
 
     /**
      * 500: 서버 에러
@@ -58,6 +61,7 @@ public enum BaseResponseStatus {
     REELS_NOT_FOUND(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 릴스입니다."),
     NO_EXIST_FEED(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 피드입니다."),
     NOTICE_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "공지 등록에 실패했습니다."),
+    FAN_FEED_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 501, "팬 피드 등록에 실패했습니다."),
 
 
 

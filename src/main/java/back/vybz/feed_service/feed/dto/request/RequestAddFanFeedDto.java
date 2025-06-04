@@ -1,6 +1,7 @@
 package back.vybz.feed_service.feed.dto.request;
 
 import back.vybz.feed_service.feed.domain.mongodb.*;
+import back.vybz.feed_service.feed.vo.request.RequestAddFanFeedVo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,18 @@ public class RequestAddFanFeedDto {
         this.fileList = fileList;
         this.location = location;
 
+    }
+
+    public static RequestAddFanFeedDto from(RequestAddFanFeedVo requestAddFanFeedVo, String writerUuid){
+        return RequestAddFanFeedDto.builder()
+                .writerUuid(writerUuid)
+                .writerType(WriterType.USER)
+                .content(requestAddFanFeedVo.getContent())
+                .humanTag(requestAddFanFeedVo.getHumanTag())
+                .hashTag(requestAddFanFeedVo.getHashTag())
+                .fileList(requestAddFanFeedVo.getFileList())
+                .location(requestAddFanFeedVo.getLocation())
+                .build();
     }
 
     public Feed toEntity(){
