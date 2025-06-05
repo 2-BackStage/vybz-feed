@@ -23,7 +23,6 @@ public class RequestAddNoticeVo {
     private List<FeedFile> fileList;
     private String startedAt;
     private String endedAt;
-    private FeedType feedType;
 
     @Builder
     public RequestAddNoticeVo(String title,
@@ -33,8 +32,7 @@ public class RequestAddNoticeVo {
                               List<TaggedHuman> humanTag,
                               List<FeedFile> fileList,
                               String startedAt,
-                              String endedAt,
-                              FeedType feedType) {
+                              String endedAt) {
         this.title = title;
         this.content = content;
         this.location = location;
@@ -43,6 +41,5 @@ public class RequestAddNoticeVo {
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
-        this.feedType = feedType;
     }
 }

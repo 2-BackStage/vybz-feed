@@ -17,6 +17,7 @@ public class RequestAddReelsDto {
     private String title;
     private String content;
     private String location;
+    private FeedType feedType;
     private List<String> hashTag;
     private List<TaggedHuman> humanTag;
     private List<FeedFile> fileList;
@@ -34,6 +35,7 @@ public class RequestAddReelsDto {
         this.writerType = writerType;
         this.title = title;
         this.content = content;
+        this.feedType = FeedType.REELS;
         this.location = location;
         this.hashTag = hashTag;
         this.humanTag = humanTag;
