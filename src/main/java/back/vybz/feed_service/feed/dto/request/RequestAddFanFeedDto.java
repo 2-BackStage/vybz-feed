@@ -2,6 +2,7 @@ package back.vybz.feed_service.feed.dto.request;
 
 import back.vybz.feed_service.feed.domain.mongodb.*;
 import back.vybz.feed_service.feed.vo.request.RequestAddFanFeedVo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,7 +60,7 @@ public class RequestAddFanFeedDto {
                 .content(content)
                 .humanTag(humanTag)
                 .hashTag(hashTag)
-                .feedType(feedType)
+                .feedType(FeedType.FAN_FEED)
                 .fileList(fileList)
                 .location(location)
                 .build();
