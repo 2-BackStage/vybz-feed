@@ -25,6 +25,7 @@ public class RequestAddNoticeDto {
     private List<String> hashTag;
     private List<TaggedHuman> humanTag;
     private List<FeedFile> fileList;
+    private FeedType feedType;
     private String startedAt;
     private String endedAt;
 
@@ -44,6 +45,7 @@ public class RequestAddNoticeDto {
         this.title = title;
         this.content = content;
         this.location = location;
+        this.feedType = FeedType.NOTICE;
         this.hashTag = hashTag;
         this.humanTag = humanTag;
         this.fileList = fileList;
