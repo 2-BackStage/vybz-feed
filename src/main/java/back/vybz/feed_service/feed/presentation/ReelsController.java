@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/feed")
-public class BuskerReelsController {
+public class ReelsController {
 
     private final ReelsService reelsService;
     private final ReelsRepository reelsRepository;

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/feed")
 @RequiredArgsConstructor
-public class BuskerNoticeController {
+public class NoticeController {
 
     private final NoticeService noticeService;
 
