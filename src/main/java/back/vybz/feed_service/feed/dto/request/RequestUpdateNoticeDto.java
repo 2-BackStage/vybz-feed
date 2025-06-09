@@ -8,6 +8,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Getter
@@ -65,4 +69,13 @@ public class RequestUpdateNoticeDto {
                 .endedAt(requestUpdateNoticeVo.getEndedAt())
                 .build();
     }
+    public static Instant parseToInstant(String value) {
+        if (value == null || value.isBlank()) return null;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(value, formatter)
+                .atZone(ZoneId.of("Asia/Seoul"))
+                .toInstant();
+    }
+
 }

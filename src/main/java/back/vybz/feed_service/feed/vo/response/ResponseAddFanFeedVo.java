@@ -14,8 +14,6 @@ import java.util.List;
 public class ResponseAddFanFeedVo {
 
     private String id;
-    private String writerUuid;
-    private WriterType writerType;
     private String content;
     private String location;
     private List<String> hashTag;
@@ -24,16 +22,12 @@ public class ResponseAddFanFeedVo {
 
     @Builder
     public ResponseAddFanFeedVo(String id,
-                                      String writerUuid,
-                                      WriterType writerType,
-                                      String content,
-                                      String location,
-                                      List<String> hashTag,
-                                      List<TaggedHuman> humanTag,
-                                      List<FeedFile> fileList) {
+                                String content,
+                                String location,
+                                List<String> hashTag,
+                                List<TaggedHuman> humanTag,
+                                List<FeedFile> fileList) {
         this.id = id;
-        this.writerUuid = writerUuid;
-        this.writerType = writerType;
         this.content = content;
         this.location = location;
         this.hashTag = hashTag;
