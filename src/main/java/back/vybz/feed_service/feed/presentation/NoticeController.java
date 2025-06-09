@@ -28,10 +28,11 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PostMapping("/notice")
-    public BaseResponseEntity<ResponseAddNoticeVo> createNotice(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<ResponseAddNoticeVo> createNotice(//HttpServletRequest httpServletRequest,
                                                                 @RequestBody RequestAddNoticeVo requestAddNoticeVo){
 
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         RequestAddNoticeDto requestAddNoticeDto = RequestAddNoticeDto.from(requestAddNoticeVo, writerUuid);
         ResponseAddNoticeDto responseAddNoticeDto = noticeService.createNotice(requestAddNoticeDto);
         return new BaseResponseEntity<>(responseAddNoticeDto.toVo());
@@ -44,10 +45,11 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PutMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> updateNotice(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> updateNotice(//HttpServletRequest httpServletRequest,
                                                  @PathVariable("noticeId") String noticeId,
                                                  @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         noticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId,requestUpdateNoticeVo, writerUuid));
         return new BaseResponseEntity<>();
     }
@@ -58,10 +60,11 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @DeleteMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> deleteNotice(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> deleteNotice(//HttpServletRequest httpServletRequest,
                                                  @PathVariable("noticeId") String noticeId) {
 
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         noticeService.deleteNotice(noticeId, writerUuid);
         return new BaseResponseEntity<>();
     }

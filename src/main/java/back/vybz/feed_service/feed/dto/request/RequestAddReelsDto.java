@@ -14,7 +14,6 @@ public class RequestAddReelsDto {
 
     private String writerUuid;
     private WriterType writerType;
-    private String title;
     private String content;
     private String location;
     private FeedType feedType;
@@ -33,7 +32,6 @@ public class RequestAddReelsDto {
                               List<FeedFile> fileList) {
         this.writerUuid = writerUuid;
         this.writerType = writerType;
-        this.title = title;
         this.content = content;
         this.feedType = FeedType.REELS;
         this.location = location;
@@ -46,7 +44,6 @@ public class RequestAddReelsDto {
         return RequestAddReelsDto.builder()
                 .writerUuid(writerUuid)
                 .writerType(WriterType.BUSKER)
-                .title(requestAddReelsVo.getTitle())
                 .content(requestAddReelsVo.getContent())
                 .location(requestAddReelsVo.getLocation())
                 .hashTag(requestAddReelsVo.getHashTag())
@@ -58,7 +55,6 @@ public class RequestAddReelsDto {
         return Feed.builder()
                 .writerUuid(writerUuid)
                 .writerType(writerType)
-                .title(title)
                 .content(content)
                 .location(location)
                 .hashTag(hashTag)

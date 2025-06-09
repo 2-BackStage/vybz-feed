@@ -26,9 +26,10 @@ public class FanFeedController {
             tags = {"FAN-FEED-SERVICE"}
     )
     @PostMapping("/fan")
-    public BaseResponseEntity<ResponseAddFanFeedVo> createFanFeed(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<ResponseAddFanFeedVo> createFanFeed(//HttpServletRequest httpServletRequest,
                                                                   @RequestBody RequestAddFanFeedVo requestAddFanFeedVo) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         RequestAddFanFeedDto requestAddFanFeedDto = RequestAddFanFeedDto.from(requestAddFanFeedVo, writerUuid);
         ResponseAddFanFeedDto responseAddFanFeedDto = fanFeedService.createFanFeed(requestAddFanFeedDto);
         return new BaseResponseEntity<>(responseAddFanFeedDto.toVo());
@@ -40,10 +41,11 @@ public class FanFeedController {
             tags = {"FAN-FEED-SERVICE"}
     )
     @PutMapping("/fan/{fanFeedId}")
-    public BaseResponseEntity<Void> updateFanFeed(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> updateFanFeed(//HttpServletRequest httpServletRequest,
                                                   @PathVariable("fanFeedId") String fanFeedId,
                                                   @RequestBody RequestUpdateFanFeedVo requestUpdateFanFeedVo){
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         fanFeedService.updateFanFeed(RequestUpdateFanFeedDto.of(fanFeedId, requestUpdateFanFeedVo, writerUuid));
         return new BaseResponseEntity<>();
     }
@@ -54,9 +56,10 @@ public class FanFeedController {
             tags = {"FAN-FEED-SERVICE"}
     )
     @DeleteMapping("/fan/{fanFeedId}")
-    public BaseResponseEntity<Void> deleteFanFeed(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> deleteFanFeed(//HttpServletRequest httpServletRequest,
                                                   @PathVariable("fanFeedId") String fanFeedId) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         fanFeedService.deleteFanFeed(fanFeedId, writerUuid);
         return new BaseResponseEntity<>();
     }

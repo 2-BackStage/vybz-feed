@@ -15,8 +15,6 @@ import java.util.List;
 public class ResponseAddNoticeVo {
 
     private String id;
-    private String writerUuid;
-    private WriterType writerType;
     private String title;
     private String content;
     private String location;
@@ -25,12 +23,9 @@ public class ResponseAddNoticeVo {
     private List<FeedFile> fileList;
     private String startedAt;
     private String endedAt;
-    private FeedType feedType;
 
     @Builder
     public ResponseAddNoticeVo(String id,
-                               String writerUuid,
-                               WriterType writerType,
                                String title,
                                String content,
                                String location,
@@ -38,11 +33,8 @@ public class ResponseAddNoticeVo {
                                List<TaggedHuman> humanTag,
                                List<FeedFile> fileList,
                                String startedAt,
-                               String endedAt,
-                               FeedType feedType) {
+                               String endedAt) {
         this.id = id;
-        this.writerUuid = writerUuid;
-        this.writerType = writerType;
         this.title = title;
         this.content = content;
         this.location = location;
@@ -51,6 +43,5 @@ public class ResponseAddNoticeVo {
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
-        this.feedType = feedType;
     }
 }

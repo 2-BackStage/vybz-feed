@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestAddReelsVo {
 
-    private String title;
     private String content;
     private String location;
     private List<String> hashTag;
@@ -22,13 +21,11 @@ public class RequestAddReelsVo {
     private List<FeedFile> fileList;
 
     @Builder
-    public RequestAddReelsVo(String title,
-                             String content,
+    public RequestAddReelsVo(String content,
                              String location,
                              List<String> hashTag,
                              List<TaggedHuman> humanTag,
                              List<FeedFile> fileList) {
-        this.title = title;
         this.content = content;
         this.location = location;
         this.hashTag = hashTag;

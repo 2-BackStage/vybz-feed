@@ -42,4 +42,6 @@ public class RequestUpdateAboutDto {
                 .hashTag(requestUpdateAboutVo.getHashTag())
                 .build();
     }
+
+
 }

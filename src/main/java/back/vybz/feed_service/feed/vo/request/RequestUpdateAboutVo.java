@@ -12,17 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestUpdateAboutVo {
 
-    private String id;
     private String content;
     private List<FeedFile> fileList;
     private List<String> hashTag;
 
     @Builder
-    public RequestUpdateAboutVo(String id,
-                                String content,
+    public RequestUpdateAboutVo(String content,
                                 List<FeedFile> fileList,
                                 List<String> hashTag) {
-        this.id = id;
         this.content = content;
         this.fileList = fileList;
         this.hashTag = hashTag;

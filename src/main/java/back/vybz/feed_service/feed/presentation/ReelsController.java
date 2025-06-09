@@ -28,9 +28,10 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @PostMapping("/reels")
-    public BaseResponseEntity<ResponseAddReelsVo> createReels(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<ResponseAddReelsVo> createReels(//HttpServletRequest httpServletRequest,
                                                               @RequestBody RequestAddReelsVo requestAddReelsVo) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+       // String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo, writerUuid);
         ResponseAddReelsDto responseAddReelsDto = reelsService.createReels(requestAddReelsDto);
         return new BaseResponseEntity<>(responseAddReelsDto.toVo());
@@ -42,10 +43,11 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @PutMapping("/reels/{reelsId}")
-    public BaseResponseEntity<Void> updateReels(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> updateReels(//HttpServletRequest httpServletRequest,
                                                 @PathVariable("reelsId") String reelsId,
                                                 @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         reelsService.updateReels(RequestUpdateReelsDto.of(reelsId, requestUpdateReelsVo, writerUuid));
         return new BaseResponseEntity<>();
     }
@@ -56,9 +58,10 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @DeleteMapping("/reels/{reelsId}")
-    public BaseResponseEntity<Void> deleteReels(HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> deleteReels(//HttpServletRequest httpServletRequest,
                                                 @PathVariable("reelsId") String reelsId) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+        String writerUuid = "test-writer-uuid";
         reelsService.deleteReels(reelsId, writerUuid);
         return new BaseResponseEntity<>();
     }

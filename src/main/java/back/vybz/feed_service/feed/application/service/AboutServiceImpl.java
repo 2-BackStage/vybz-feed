@@ -8,15 +8,23 @@ import back.vybz.feed_service.feed.dto.request.RequestAddAboutDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateAboutDto;
 import back.vybz.feed_service.feed.dto.response.ResponseAddAboutDto;
 import back.vybz.feed_service.feed.infrastructure.repository.AboutRepository;
+import back.vybz.feed_service.kafka.event.AboutCreateEvent;
+import back.vybz.feed_service.kafka.event.AboutUpdateEvent;
+import back.vybz.feed_service.kafka.event.FeedDeleteEvent;
+import back.vybz.feed_service.kafka.producer.CommonKafkaProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
 public class AboutServiceImpl implements AboutService {
 
     private final AboutRepository aboutRepository;
+    private final CommonKafkaProducer commonKafkaProducer;
+
 
     /**
      *
@@ -35,9 +43,20 @@ public class AboutServiceImpl implements AboutService {
             throw new BaseException(BaseResponseStatus.ALREADY_EXISTS_ABOUT);
         }
 
-        Feed saved = aboutRepository.save(
-                requestAddAboutDto.toEntity()
-        );
+        Feed saved = aboutRepository.save(requestAddAboutDto.toEntity());
+
+
+        AboutCreateEvent event = AboutCreateEvent.builder()
+                .id(saved.getId())
+                .writerUuid(saved.getWriterUuid())
+                .writerType(saved.getWriterType())
+                .content(saved.getContent())
+                .hashTag(saved.getHashTag())
+                .fileList(saved.getFileList())
+                .createdAt(saved.getCreatedAt())
+                .build();
+
+        commonKafkaProducer.send("about-create", event);
 
         return ResponseAddAboutDto.from(saved);
     }
@@ -58,6 +77,19 @@ public class AboutServiceImpl implements AboutService {
         }
 
         aboutRepository.updateAboutById(requestUpdateAboutDto.getId(), requestUpdateAboutDto);
+
+
+        AboutUpdateEvent event = AboutUpdateEvent.builder()
+                .id(feed.getId())
+                .writerUuid(feed.getWriterUuid())
+                .writerType(feed.getWriterType())
+                .content(requestUpdateAboutDto.getContent())
+                .hashTag(requestUpdateAboutDto.getHashTag())
+                .fileList(requestUpdateAboutDto.getFileList())
+                .updatedAt(Instant.now())
+                .build();
+
+        commonKafkaProducer.send("about-update", event);
     }
 
     /**
@@ -75,6 +107,16 @@ public class AboutServiceImpl implements AboutService {
             throw new BaseException(BaseResponseStatus.NO_AUTHORIZATION_TO_DELETE_ABOUT);
         }
 
+        FeedDeleteEvent event = FeedDeleteEvent.builder()
+                .id(feed.getId())
+                .writerUuid(feed.getWriterUuid())
+                .writerType(feed.getWriterType())
+                .feedType(feed.getFeedType())
+                .build();
+
+        commonKafkaProducer.send("feed-delete", event);
+
         aboutRepository.delete(feed);
     }
+
 }

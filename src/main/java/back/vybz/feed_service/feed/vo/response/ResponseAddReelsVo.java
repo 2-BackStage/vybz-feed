@@ -13,9 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class ResponseAddReelsVo {
     private String id;
-    private String writerUuid;
-    private WriterType writerType;
-    private String title;
     private String content;
     private String location;
     private List<String> hashTag;
@@ -24,18 +21,12 @@ public class ResponseAddReelsVo {
 
     @Builder
     public ResponseAddReelsVo(String id,
-                                String writerUuid,
-                                WriterType writerType,
-                                String title,
                                 String content,
                                 String location,
                                 List<String> hashTag,
                                 List<TaggedHuman> humanTag,
                                 List<FeedFile> fileList) {
         this.id = id;
-        this.writerUuid = writerUuid;
-        this.writerType = writerType;
-        this.title = title;
         this.content = content;
         this.location = location;
         this.hashTag = hashTag;

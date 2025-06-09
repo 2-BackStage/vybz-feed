@@ -54,12 +54,14 @@ public class NoticeRepositoryCustomImpl implements NoticeRepositoryCustom {
         if (requestUpdateNoticeDto.getFileList() != null) {
             update.set("fileList", requestUpdateNoticeDto.getFileList());
         }
-        if (requestUpdateNoticeDto.getStartedAt() != null) {
-            update.set("startedAt", Instant.parse(requestUpdateNoticeDto.getStartedAt()));
+        if (requestUpdateNoticeDto.getStartedAt() != null && !requestUpdateNoticeDto.getStartedAt().isBlank()) {
+            update.set("startedAt", RequestUpdateNoticeDto.parseToInstant(requestUpdateNoticeDto.getStartedAt()));
         }
-        if (requestUpdateNoticeDto.getEndedAt() != null) {
-            update.set("endedAt", Instant.parse(requestUpdateNoticeDto.getEndedAt()));
+        if (requestUpdateNoticeDto.getEndedAt() != null && !requestUpdateNoticeDto.getEndedAt().isBlank()) {
+            update.set("endedAt", RequestUpdateNoticeDto.parseToInstant(requestUpdateNoticeDto.getEndedAt()));
         }
+
+
 
         mongoTemplate.updateFirst(query, update, Feed.class);
     }
