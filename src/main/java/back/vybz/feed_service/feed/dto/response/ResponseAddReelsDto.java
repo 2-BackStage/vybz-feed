@@ -17,7 +17,6 @@ public class ResponseAddReelsDto {
     private String id;
     private String writerUuid;
     private WriterType writerType;
-    private String title;
     private String content;
     private String location;
     private List<String> hashTag;
@@ -28,7 +27,6 @@ public class ResponseAddReelsDto {
     public ResponseAddReelsDto(String id,
                                String writerUuid,
                                WriterType writerType,
-                               String title,
                                String content,
                                String location,
                                List<String> hashTag,
@@ -37,7 +35,6 @@ public class ResponseAddReelsDto {
         this.id = id;
         this.writerUuid = writerUuid;
         this.writerType = writerType;
-        this.title = title;
         this.content = content;
         this.location = location;
         this.hashTag = hashTag;
@@ -50,7 +47,6 @@ public class ResponseAddReelsDto {
                 .id(feed.getId())
                 .writerUuid(feed.getWriterUuid())
                 .writerType(feed.getWriterType())
-                .title(feed.getTitle())
                 .content(feed.getContent())
                 .location(feed.getLocation())
                 .hashTag(feed.getHashTag())
@@ -62,9 +58,6 @@ public class ResponseAddReelsDto {
     public ResponseAddReelsVo toVo() {
         return ResponseAddReelsVo.builder()
                 .id(id)
-                .writerUuid(writerUuid)
-                .writerType(writerType)
-                .title(title)
                 .content(content)
                 .location(location)
                 .hashTag(hashTag)

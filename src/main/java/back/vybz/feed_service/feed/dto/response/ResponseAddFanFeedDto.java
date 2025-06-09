@@ -59,8 +59,6 @@ public class ResponseAddFanFeedDto {
     public ResponseAddFanFeedVo toVo(){
         return ResponseAddFanFeedVo.builder()
                 .id(id)
-                .writerUuid(writerUuid)
-                .writerType(writerType)
                 .content(content)
                 .location(location)
                 .hashTag(hashTag)

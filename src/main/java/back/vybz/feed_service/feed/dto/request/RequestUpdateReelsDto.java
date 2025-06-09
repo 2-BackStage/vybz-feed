@@ -8,6 +8,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +23,6 @@ public class RequestUpdateReelsDto {
     private String id;
     private String writerUuid;
     private WriterType writerType;
-    private String title;
     private String content;
     private String location;
     private List<String> hashTag;
@@ -29,7 +32,6 @@ public class RequestUpdateReelsDto {
   @Builder
     public RequestUpdateReelsDto(String id,
                                  String writerUuid,
-                                 String title,
                                  String content,
                                  String location,
                                  List<String> hashTag,
@@ -38,7 +40,6 @@ public class RequestUpdateReelsDto {
         this.id = id;
         this.writerUuid = writerUuid;
         this.writerType = WriterType.BUSKER;
-        this.title = title;
         this.content = content;
         this.location = location;
         this.hashTag = hashTag;
@@ -53,7 +54,6 @@ public class RequestUpdateReelsDto {
             return RequestUpdateReelsDto.builder()
                     .id(id)
                     .writerUuid(writerUuid)
-                    .title(requestUpdateReelsVo.getTitle())
                     .content(requestUpdateReelsVo.getContent())
                     .location(requestUpdateReelsVo.getLocation())
                     .hashTag(requestUpdateReelsVo.getHashTag())
@@ -62,4 +62,5 @@ public class RequestUpdateReelsDto {
                     .build();
         }
     }
+
 }

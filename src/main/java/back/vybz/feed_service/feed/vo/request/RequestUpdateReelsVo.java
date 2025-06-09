@@ -11,8 +11,6 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class RequestUpdateReelsVo {
-    private String id;
-    private String title;
     private String content;
     private String location;
     private List<String> hashTag;
@@ -20,15 +18,12 @@ public class RequestUpdateReelsVo {
     private List<FeedFile> fileList;
 
    @Builder
-    public RequestUpdateReelsVo(String id,
-                                String title,
-                                String content,
+    public RequestUpdateReelsVo(String content,
                                 String location,
                                 List<String> hashTag,
                                 List<TaggedHuman> humanTag,
                                 List<FeedFile> fileList) {
-        this.id = id;
-        this.title = title;
+
         this.content = content;
         this.location = location;
         this.hashTag = hashTag;

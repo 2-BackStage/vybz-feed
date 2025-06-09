@@ -71,8 +71,6 @@ public class ResponseAddNoticeDto {
     public ResponseAddNoticeVo toVo() {
         return ResponseAddNoticeVo.builder()
                 .id(id)
-                .writerUuid(writerUuid)
-                .writerType(writerType)
                 .title(title)
                 .content(content)
                 .location(location)

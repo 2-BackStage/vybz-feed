@@ -31,6 +31,7 @@ public enum BaseResponseStatus {
     /**
      * 400 : security 에러
      */
+
     WRONG_TOKEN(HttpStatus.UNAUTHORIZED, false, 401, "토큰이 유효하지 않습니다"),
     NO_SIGN_IN(HttpStatus.UNAUTHORIZED, false, 402, "로그인을 먼저 진행해주세요"),
     NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 403, "접근 권한이 없습니다"),
@@ -62,6 +63,14 @@ public enum BaseResponseStatus {
     NO_EXIST_FEED(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 피드입니다."),
     NOTICE_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "공지 등록에 실패했습니다."),
     FAN_FEED_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 501, "팬 피드 등록에 실패했습니다."),
+    ABOUT_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 502, "자기소개 등록에 실패했습니다."),
+    ABOUT_UPDATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 503, "자기소개 수정에 실패했습니다."),
+    ABOUT_DELETE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 504, "자기소개 삭제에 실패했습니다."),
+    ABOUT_NOT_FOUND(HttpStatus.NOT_FOUND, false, 505, "존재하지 않는 자기소개입니다."),
+    NO_AUTHORIZATION_TO_UPDATE_ABOUT(HttpStatus.FORBIDDEN, false, 506, "이 자기소개를 수정할 권한이 없습니다."),
+    NO_AUTHORIZATION_TO_DELETE_ABOUT(HttpStatus.FORBIDDEN, false, 507, "이 자기소개를 삭제할 권한이 없습니다."),
+    ALREADY_EXISTS_ABOUT(HttpStatus.CONFLICT, false, 508, "이미 등록된 자기소개가 존재합니다."),
+
 
 
 
