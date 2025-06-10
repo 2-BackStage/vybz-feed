@@ -10,9 +10,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 @Slf4j
 public class BaseExceptionHandler {
+
 
     /**
      * 발생한 예외 처리
@@ -36,22 +40,25 @@ public class BaseExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<BaseResponseEntity<Void>> handleValidationException(MethodArgumentNotValidException e) {
-        BindingResult bindingResult = e.getBindingResult();
+    protected ResponseEntity<BaseResponseEntity<Map<String, String>>> handleValidationException(MethodArgumentNotValidException e) {
+        // Map<String, String> 타입으로 변경하여 여러 필드 오류를 담을 수 있도록 합니다.
+        Map<String, String> errors = new HashMap<>();
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
 
-        FieldError fieldError = bindingResult.getFieldError();
-        String errorMessage = (fieldError != null)
-                ? String.format("%s : %s", fieldError.getField(), fieldError.getDefaultMessage())
-                : "잘못된 요청입니다.";
+        log.warn("Validation failed for fields: {}", errors);
 
-        log.warn("Validation failed: {}", errorMessage);
-
-        BaseResponseEntity<Void> response = new BaseResponseEntity<>(
+        // BaseResponseEntity의 제네릭 타입을 Map<String, String>으로 변경하고,
+        // data 필드에 errors 맵을 담습니다.
+        BaseResponseEntity<Map<String, String>> response = new BaseResponseEntity<>(
                 BaseResponseStatus.INVALID_REQUEST.getHttpStatusCode(),
                 false,
-                errorMessage,
+                "요청 유효성 검증에 실패했습니다.", // 포괄적인 메시지 (옵션)
                 BaseResponseStatus.INVALID_REQUEST.getCode(),
-                null
+                errors // 여기에 필드별 오류 맵을 전달
         );
         return new ResponseEntity<>(response, response.httpStatus());
     }
@@ -61,7 +68,7 @@ public class BaseExceptionHandler {
         Throwable cause = e.getCause();
 
         if (cause != null && cause.getMessage() != null && cause.getMessage().contains("java.time.LocalDate")) {
-            String errorMessage = "생년월일은 yyyy-mm-dd 형식이어야 합니다.";
+            String errorMessage = "생년월일은 YYYY-mm-dd 형식이어야 합니다.";
             log.warn("LocalDate parsing failed: {}", cause.getMessage());
             return new ResponseEntity<>(
                     new BaseResponseEntity<>(

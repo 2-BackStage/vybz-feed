@@ -5,7 +5,6 @@ import back.vybz.feed_service.common.exception.BaseResponseStatus;
 import back.vybz.feed_service.feed.domain.mongodb.Feed;
 import back.vybz.feed_service.feed.dto.request.RequestAddNoticeDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateNoticeDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddNoticeDto;
 import back.vybz.feed_service.feed.infrastructure.repository.NoticeRepository;
 import back.vybz.feed_service.kafka.event.FeedDeleteEvent;
 import back.vybz.feed_service.kafka.event.NoticeCreateEvent;
@@ -33,7 +32,7 @@ public class NoticeServiceImpl implements NoticeService {
      */
     @Override
     @Transactional
-    public ResponseAddNoticeDto createNotice(RequestAddNoticeDto requestAddNoticeDto) {
+    public void createNotice(RequestAddNoticeDto requestAddNoticeDto) {
         try {
             Feed feed = requestAddNoticeDto.toEntity();
             Feed saved = noticeRepository.save(feed);
@@ -55,7 +54,6 @@ public class NoticeServiceImpl implements NoticeService {
 
             commonKafkaProducer.send("notice-create", event);
 
-            return ResponseAddNoticeDto.from(saved);
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.NOTICE_CREATE_FAIL);
         }

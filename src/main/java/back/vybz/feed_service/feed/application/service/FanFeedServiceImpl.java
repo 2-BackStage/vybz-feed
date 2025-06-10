@@ -5,7 +5,6 @@ import back.vybz.feed_service.common.exception.BaseResponseStatus;
 import back.vybz.feed_service.feed.domain.mongodb.Feed;
 import back.vybz.feed_service.feed.dto.request.RequestAddFanFeedDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateFanFeedDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddFanFeedDto;
 import back.vybz.feed_service.feed.infrastructure.repository.FanFeedRepository;
 import back.vybz.feed_service.kafka.event.FanFeedCreateEvent;
 import back.vybz.feed_service.kafka.event.FanFeedUpdateEvent;
@@ -27,12 +26,12 @@ public class FanFeedServiceImpl implements FanFeedService {
 
     /**
      * 팬 피드를 생성하는 메서드
+     *
      * @param requestAddFanFeedDto 팬 피드 생성 요청 DTO
-     * @return 생성된 팬 피드 정보 DTO
      */
     @Override
     @Transactional
-    public ResponseAddFanFeedDto createFanFeed(RequestAddFanFeedDto requestAddFanFeedDto){
+    public void createFanFeed(RequestAddFanFeedDto requestAddFanFeedDto){
         try {
             Feed feed = requestAddFanFeedDto.toEntity();
             Feed saved = fanFeedRepository.save(feed);
@@ -52,7 +51,6 @@ public class FanFeedServiceImpl implements FanFeedService {
 
             commonKafkaProducer.send("fanfeed-create", event);
 
-            return ResponseAddFanFeedDto.from(saved);
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.FAN_FEED_CREATE_FAIL);
         }
