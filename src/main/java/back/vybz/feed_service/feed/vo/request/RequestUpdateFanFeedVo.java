@@ -16,7 +16,6 @@ public class RequestUpdateFanFeedVo {
     private String content;
     private List<TaggedHuman> humanTag;
     private List<String> hashTag;
-    private FeedType feedType;
     private List<FeedFile> fileList;
     private String location;
 
@@ -30,7 +29,6 @@ public class RequestUpdateFanFeedVo {
         this.content = content;
         this.humanTag = humanTag;
         this.hashTag = hashTag;
-        this.feedType = feedType;
         this.fileList = fileList;
         this.location = location;
     }

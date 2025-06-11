@@ -67,4 +67,11 @@ public record BaseResponseEntity<T>(
     public static <T> BaseResponseEntity<T> fail(BaseResponseStatus status, String message) {
         return new BaseResponseEntity<>(status, message);
     }
+
+    // ✅ 실패 응답 (오류 데이터 포함) -- 이 메서드를 추가하는 것을 강력히 권장합니다!
+    public static <T> BaseResponseEntity<T> failWithResult(BaseResponseStatus status, T result) {
+        // 실패 상태이므로 isSuccess는 false여야 합니다.
+        // BaseResponseStatus에서 isSuccess를 정확히 관리해야 합니다.
+        return new BaseResponseEntity<>(status.getHttpStatusCode(), status.isSuccess(), status.getMessage(), status.getCode(), result);
+    }
 }

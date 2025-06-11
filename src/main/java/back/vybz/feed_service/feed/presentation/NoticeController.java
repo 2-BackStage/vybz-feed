@@ -4,12 +4,10 @@ import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import back.vybz.feed_service.feed.application.service.NoticeService;
 import back.vybz.feed_service.feed.dto.request.RequestAddNoticeDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateNoticeDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddNoticeDto;
 import back.vybz.feed_service.feed.vo.request.RequestAddNoticeVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateNoticeVo;
-import back.vybz.feed_service.feed.vo.response.ResponseAddNoticeVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,14 +26,14 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PostMapping("/notice")
-    public BaseResponseEntity<ResponseAddNoticeVo> createNotice(//HttpServletRequest httpServletRequest,
-                                                                @RequestBody RequestAddNoticeVo requestAddNoticeVo){
+    public BaseResponseEntity<Void> createNotice(//HttpServletRequest httpServletRequest,
+                                                               @Valid @RequestBody RequestAddNoticeVo requestAddNoticeVo){
 
         //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         String writerUuid = "test-writer-uuid";
         RequestAddNoticeDto requestAddNoticeDto = RequestAddNoticeDto.from(requestAddNoticeVo, writerUuid);
-        ResponseAddNoticeDto responseAddNoticeDto = noticeService.createNotice(requestAddNoticeDto);
-        return new BaseResponseEntity<>(responseAddNoticeDto.toVo());
+        noticeService.createNotice(requestAddNoticeDto);
+        return new BaseResponseEntity<>();
     }
 
 
