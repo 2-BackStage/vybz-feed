@@ -86,7 +86,7 @@ public enum BaseResponseStatus {
     /**
      * Request 유효성 에러
      */
-    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 1000, "잘못된 요청입니다."),
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 400, "잘못된 요청입니다."),
 
 
     /**

@@ -4,12 +4,10 @@ import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import back.vybz.feed_service.feed.application.service.AboutService;
 import back.vybz.feed_service.feed.dto.request.RequestAddAboutDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateAboutDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddAboutDto;
 import back.vybz.feed_service.feed.vo.request.RequestAddAboutVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateAboutVo;
-import back.vybz.feed_service.feed.vo.response.ResponseAddAboutVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +24,13 @@ public class AboutController {
             tags = {"ABOUT-SERVICE"}
     )
     @PostMapping("/about")
-    public BaseResponseEntity<ResponseAddAboutVo> createAbout(//HttpServletRequest httpServletRequest,
-                                                              @RequestBody RequestAddAboutVo requestAddAboutVo) {
+    public BaseResponseEntity<Void> createAbout(//HttpServletRequest httpServletRequest,
+                                                              @Valid @RequestBody RequestAddAboutVo requestAddAboutVo) {
         //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         String writerUuid = "test-writer-uuid";
         RequestAddAboutDto requestAddAboutDto = RequestAddAboutDto.from(requestAddAboutVo, writerUuid);
-        ResponseAddAboutDto responseDto = aboutService.createAbout(requestAddAboutDto);
-        return new BaseResponseEntity<>(responseDto.toVo());
+        aboutService.createAbout(requestAddAboutDto);
+        return new BaseResponseEntity<>();
     }
 
     @Operation(

@@ -4,12 +4,10 @@ import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import back.vybz.feed_service.feed.application.service.FanFeedService;
 import back.vybz.feed_service.feed.dto.request.RequestAddFanFeedDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateFanFeedDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddFanFeedDto;
 import back.vybz.feed_service.feed.vo.request.RequestAddFanFeedVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateFanFeedVo;
-import back.vybz.feed_service.feed.vo.response.ResponseAddFanFeedVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +24,13 @@ public class FanFeedController {
             tags = {"FAN-FEED-SERVICE"}
     )
     @PostMapping("/fan")
-    public BaseResponseEntity<ResponseAddFanFeedVo> createFanFeed(//HttpServletRequest httpServletRequest,
-                                                                  @RequestBody RequestAddFanFeedVo requestAddFanFeedVo) {
+    public BaseResponseEntity<Void> createFanFeed(//HttpServletRequest httpServletRequest,
+                                                                 @Valid @RequestBody RequestAddFanFeedVo requestAddFanFeedVo) {
         //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         String writerUuid = "test-writer-uuid";
         RequestAddFanFeedDto requestAddFanFeedDto = RequestAddFanFeedDto.from(requestAddFanFeedVo, writerUuid);
-        ResponseAddFanFeedDto responseAddFanFeedDto = fanFeedService.createFanFeed(requestAddFanFeedDto);
-        return new BaseResponseEntity<>(responseAddFanFeedDto.toVo());
+        fanFeedService.createFanFeed(requestAddFanFeedDto);
+        return new BaseResponseEntity<>();
     }
 
     @Operation(

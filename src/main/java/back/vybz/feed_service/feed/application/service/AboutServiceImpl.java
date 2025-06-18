@@ -6,7 +6,6 @@ import back.vybz.feed_service.feed.domain.mongodb.Feed;
 import back.vybz.feed_service.feed.domain.mongodb.FeedType;
 import back.vybz.feed_service.feed.dto.request.RequestAddAboutDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateAboutDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddAboutDto;
 import back.vybz.feed_service.feed.infrastructure.repository.AboutRepository;
 import back.vybz.feed_service.kafka.event.AboutCreateEvent;
 import back.vybz.feed_service.kafka.event.AboutUpdateEvent;
@@ -27,13 +26,11 @@ public class AboutServiceImpl implements AboutService {
 
 
     /**
-     *
      * @param requestAddAboutDto
-     * @return
      */
     @Override
     @Transactional
-    public ResponseAddAboutDto createAbout(RequestAddAboutDto requestAddAboutDto) {
+    public void createAbout(RequestAddAboutDto requestAddAboutDto) {
         boolean exists = aboutRepository.existsByWriterUuidAndFeedType(
                 requestAddAboutDto.getWriterUuid(),
                 FeedType.ABOUT
@@ -57,8 +54,6 @@ public class AboutServiceImpl implements AboutService {
                 .build();
 
         commonKafkaProducer.send("about-create", event);
-
-        return ResponseAddAboutDto.from(saved);
     }
 
     /**

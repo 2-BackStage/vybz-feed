@@ -5,7 +5,6 @@ import back.vybz.feed_service.common.exception.BaseResponseStatus;
 import back.vybz.feed_service.feed.domain.mongodb.Feed;
 import back.vybz.feed_service.feed.dto.request.RequestAddReelsDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateReelsDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddReelsDto;
 import back.vybz.feed_service.feed.infrastructure.repository.ReelsRepository;
 import back.vybz.feed_service.kafka.event.FeedDeleteEvent;
 import back.vybz.feed_service.kafka.event.ReelsCreateEvent;
@@ -30,7 +29,7 @@ public class ReelsServiceImpl implements ReelsService {
      */
     @Override
     @Transactional
-    public ResponseAddReelsDto createReels(RequestAddReelsDto requestAddReelsDto){
+    public void createReels(RequestAddReelsDto requestAddReelsDto){
         try {
             Feed feed = requestAddReelsDto.toEntity();
             Feed saved = reelsRepository.save(feed);
@@ -50,7 +49,6 @@ public class ReelsServiceImpl implements ReelsService {
 
             commonKafkaProducer.send("reels-create", event);
 
-            return ResponseAddReelsDto.from(saved);
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.REELS_SAVE_FAILED);
         }

@@ -4,13 +4,10 @@ import back.vybz.feed_service.common.entity.BaseResponseEntity;
 import back.vybz.feed_service.feed.application.service.ReelsService;
 import back.vybz.feed_service.feed.dto.request.RequestAddReelsDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateReelsDto;
-import back.vybz.feed_service.feed.dto.response.ResponseAddReelsDto;
-import back.vybz.feed_service.feed.infrastructure.repository.ReelsRepository;
 import back.vybz.feed_service.feed.vo.request.RequestAddReelsVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateReelsVo;
-import back.vybz.feed_service.feed.vo.response.ResponseAddReelsVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class ReelsController {
 
     private final ReelsService reelsService;
-    private final ReelsRepository reelsRepository;
 
     @Operation(
             summary = "버스커 릴스 등록 API",
@@ -28,13 +24,13 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @PostMapping("/reels")
-    public BaseResponseEntity<ResponseAddReelsVo> createReels(//HttpServletRequest httpServletRequest,
+    public BaseResponseEntity<Void> createReels(//HttpServletRequest httpServletRequest,
                                                               @RequestBody RequestAddReelsVo requestAddReelsVo) {
        // String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         String writerUuid = "test-writer-uuid";
         RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo, writerUuid);
-        ResponseAddReelsDto responseAddReelsDto = reelsService.createReels(requestAddReelsDto);
-        return new BaseResponseEntity<>(responseAddReelsDto.toVo());
+        reelsService.createReels(requestAddReelsDto);
+        return new BaseResponseEntity<>();
     }
 
     @Operation(
@@ -45,7 +41,7 @@ public class ReelsController {
     @PutMapping("/reels/{reelsId}")
     public BaseResponseEntity<Void> updateReels(//HttpServletRequest httpServletRequest,
                                                 @PathVariable("reelsId") String reelsId,
-                                                @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
+                                                @Valid @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
         //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         String writerUuid = "test-writer-uuid";
         reelsService.updateReels(RequestUpdateReelsDto.of(reelsId, requestUpdateReelsVo, writerUuid));
