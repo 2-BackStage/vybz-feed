@@ -8,8 +8,10 @@ import back.vybz.feed_service.feed.dto.request.RequestUpdateReelsDto;
 import back.vybz.feed_service.feed.infrastructure.repository.ReelsRepository;
 import back.vybz.feed_service.kafka.event.FeedDeleteEvent;
 import back.vybz.feed_service.kafka.event.ReelsCreateEvent;
+import back.vybz.feed_service.kafka.event.ReelsSearchCreateEvent;
 import back.vybz.feed_service.kafka.event.ReelsUpdateEvent;
 import back.vybz.feed_service.kafka.producer.CommonKafkaProducer;
+import back.vybz.feed_service.kafka.producer.ReelsSearchCreateEventProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class ReelsServiceImpl implements ReelsService {
 
     private final ReelsRepository reelsRepository;
     private final CommonKafkaProducer commonKafkaProducer;
+    private final ReelsSearchCreateEventProducer reelsSearchCreateEventProducer;
 
 
     /**
@@ -48,6 +51,23 @@ public class ReelsServiceImpl implements ReelsService {
                     .build();
 
             commonKafkaProducer.send("reels-create", event);
+
+            String thumbnailUrl = saved.getFileList().stream()
+                    .filter(f -> f.getThumbnailUrl() != null)
+                    .findFirst()
+                    .map(f -> f.getThumbnailUrl())
+                    .orElse(null);
+
+            ReelsSearchCreateEvent searchEvent = ReelsSearchCreateEvent.builder()
+                    .id(saved.getId())
+                    .writerUuid(saved.getWriterUuid())
+                    .content(saved.getContent())
+                    .hashTag(saved.getHashTag())
+                    .createdAt(saved.getCreatedAt().toEpochMilli())
+                    .thumbnailUrl(thumbnailUrl)
+                    .build();
+
+            reelsSearchCreateEventProducer.send(searchEvent);
 
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.REELS_SAVE_FAILED);
