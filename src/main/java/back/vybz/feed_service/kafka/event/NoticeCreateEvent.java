@@ -26,6 +26,7 @@ public class NoticeCreateEvent {
     private Instant startedAt;
     private Instant endedAt;
     private Instant createdAt;
+    private Boolean membership;
 
     @Builder
     public NoticeCreateEvent(String id,
@@ -39,7 +40,8 @@ public class NoticeCreateEvent {
                              List<FeedFile> fileList,
                              Instant startedAt,
                              Instant endedAt,
-                             Instant createdAt) {
+                             Instant createdAt,
+                             Boolean membership) {
         this.id = id;
         this.writerUuid = writerUuid;
         this.writerType = writerType;
@@ -52,6 +54,7 @@ public class NoticeCreateEvent {
         this.startedAt = startedAt;
         this.endedAt = endedAt;
         this.createdAt = createdAt;
+        this.membership = membership;
     }
 
 }
