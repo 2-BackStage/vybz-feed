@@ -29,9 +29,9 @@ public enum BaseResponseStatus {
     SUCCESS_USE_COUPON(HttpStatus.OK, true, 2202, "쿠폰 사용에 성공하였습니다."),
 
     /**
-     * 400 : security 에러
+     * 400: 클라이언트 에러
      */
-
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 400, "잘못된 요청입니다."),
     WRONG_TOKEN(HttpStatus.UNAUTHORIZED, false, 401, "토큰이 유효하지 않습니다"),
     NO_SIGN_IN(HttpStatus.UNAUTHORIZED, false, 402, "로그인을 먼저 진행해주세요"),
     NO_ACCESS_AUTHORITY(HttpStatus.FORBIDDEN, false, 403, "접근 권한이 없습니다"),
@@ -44,7 +44,6 @@ public enum BaseResponseStatus {
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, false, 408, "Refresh Token이 존재하지 않습니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, false, 409, "Refresh Token이 만료되었습니다. 다시 로그인해주세요."),
     INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, false, 410, "유효하지 않은 Access Token입니다."),
-    NO_EXIST_NOTICE(HttpStatus.NOT_FOUND,false,404, "존재하지 않는 공지사항입니다."),
     NO_EXIST_COMMENT_OR_NO_AUTH(HttpStatus.NOT_FOUND, false,404,"댓글이 존재하지 않거나 권한이 없습니다."),
     REELS_SAVE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 411, "릴스 저장에 실패했습니다."),
     NO_AUTHORIZATION_TO_UPDATE_REELS(HttpStatus.FORBIDDEN, false, 412, "이 릴스를 수정할 권한이 없습니다."),
@@ -52,6 +51,11 @@ public enum BaseResponseStatus {
     FAN_FEED_NOT_FOUND(HttpStatus.NOT_FOUND, false, 414, "존재하지 않는 팬 피드입니다."),
     NO_AUTHORIZATION_TO_UPDATE_FAN_FEED(HttpStatus.FORBIDDEN, false, 415, "이 팬 피드를 수정할 권한이 없습니다."),
     NO_AUTHORIZATION_TO_DELETE_FAN_FEED(HttpStatus.FORBIDDEN, false, 416, "이 팬 피드를 삭제할 권한이 없습니다."),
+
+    // 구독 관련 에러
+    MEMBERSHIP_REQUIRED(HttpStatus.FORBIDDEN, false, 417, "구독자만 접근할 수 있는 콘텐츠입니다."),
+    NO_MEMBERSHIP_ACCESS(HttpStatus.FORBIDDEN, false, 418, "구독이 필요한 콘텐츠입니다."),
+    MEMBERSHIP_EXPIRED(HttpStatus.FORBIDDEN, false, 419, "구독이 만료되었습니다."),
 
     /**
      * 500: 서버 에러
@@ -71,23 +75,11 @@ public enum BaseResponseStatus {
     NO_AUTHORIZATION_TO_DELETE_ABOUT(HttpStatus.FORBIDDEN, false, 507, "이 자기소개를 삭제할 권한이 없습니다."),
     ALREADY_EXISTS_ABOUT(HttpStatus.CONFLICT, false, 508, "이미 등록된 자기소개가 존재합니다."),
 
-
-
-
-
     /**
      * 900: 기타 에러
      */
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 900, "Internal server error"),
     SSE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 901, "알림 전송에 실패하였습니다."),
     LOGIN_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 902, "로그인에 실패하였습니다."),
-
-
-    /**
-     * Request 유효성 에러
-     */
-    INVALID_REQUEST(HttpStatus.BAD_REQUEST, false, 400, "잘못된 요청입니다."),
-
 
     /**
      * 2000: users service error
@@ -96,6 +88,7 @@ public enum BaseResponseStatus {
     TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, false, 2001, "토큰이 유효하지 않습니다."),
 
     // Users
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, false, 2002, "서버 내부 오류가 발생했습니다."),
     DUPLICATED_USER(HttpStatus.CONFLICT, false, 2101, "이미 가입된 멤버입니다."),
     FAILED_TO_LOGIN(HttpStatus.UNAUTHORIZED, false, 2102, "아이디 또는 패스워드를 다시 확인하세요."),
     DUPLICATED_SOCIAL_USER(HttpStatus.CONFLICT, false, 2103, "이미 소셜 연동된 계정입니다."),
@@ -133,7 +126,6 @@ public enum BaseResponseStatus {
     NOT_FOUND_EMAIL(HttpStatus.NOT_FOUND, false, 2121, "가입되지 않은 이메일입니다."),
 
     // oauth
-
     SOCIAL_USER_PASSWORD_CHANGE(HttpStatus.BAD_REQUEST, false, 2201, "소셜로 가입한 유저는 비밀번호가 존재하지 않습니다."),
     INVALID_GOOGLE_TOKEN(HttpStatus.UNAUTHORIZED, false, 2202, "google access token이 유효하지 않습니다."),
     INVALID_NAVER_TOKEN(HttpStatus.UNAUTHORIZED, false, 2203, "naver access token이 유효하지 않습니다."),
@@ -241,7 +233,12 @@ public enum BaseResponseStatus {
     COUPON_NOT_FOUND(HttpStatus.NOT_FOUND, false, 8001, "존재하지 않는 쿠폰입니다."),
     COUPON_OUT_OF_STOCK(HttpStatus.BAD_REQUEST, false, 8002, "수량이 소진된 쿠폰입니다."),
     COUPON_ALREADY_DOWNLOADED(HttpStatus.BAD_REQUEST, false, 8003, "이미 다운로드한 쿠폰입니다."),
-    COUPON_ALREADY_USED(HttpStatus.BAD_REQUEST, false, 8005, "이미 사용한 쿠폰입니다.");
+    COUPON_ALREADY_USED(HttpStatus.BAD_REQUEST, false, 8005, "이미 사용한 쿠폰입니다."),
+
+    /**
+     * 404: 리소스 없음
+     */
+    NO_EXIST_NOTICE(HttpStatus.NOT_FOUND,false,404, "존재하지 않는 공지사항입니다.");
 
     private final HttpStatusCode httpStatusCode;
     private final boolean isSuccess;

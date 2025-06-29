@@ -7,6 +7,7 @@ import back.vybz.feed_service.feed.dto.request.RequestUpdateReelsDto;
 import back.vybz.feed_service.feed.vo.request.RequestAddReelsVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateReelsVo;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,11 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @PostMapping("/reels")
-    public BaseResponseEntity<Void> createReels(//HttpServletRequest httpServletRequest,
-                                                              @RequestBody RequestAddReelsVo requestAddReelsVo) {
-       // String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        String writerUuid = "test-writer-uuid";
+    public BaseResponseEntity<Void> createReels(
+            HttpServletRequest httpServletRequest,
+            @RequestBody RequestAddReelsVo requestAddReelsVo) {
+        
+        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
         RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo, writerUuid);
         reelsService.createReels(requestAddReelsDto);
         return new BaseResponseEntity<>();
@@ -39,11 +41,12 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @PutMapping("/reels/{reelsId}")
-    public BaseResponseEntity<Void> updateReels(//HttpServletRequest httpServletRequest,
-                                                @PathVariable("reelsId") String reelsId,
-                                                @Valid @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        String writerUuid = "test-writer-uuid";
+    public BaseResponseEntity<Void> updateReels(
+            HttpServletRequest httpServletRequest,
+            @PathVariable("reelsId") String reelsId,
+            @Valid @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
+        
+        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
         reelsService.updateReels(RequestUpdateReelsDto.of(reelsId, requestUpdateReelsVo, writerUuid));
         return new BaseResponseEntity<>();
     }
@@ -54,10 +57,11 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @DeleteMapping("/reels/{reelsId}")
-    public BaseResponseEntity<Void> deleteReels(//HttpServletRequest httpServletRequest,
-                                                @PathVariable("reelsId") String reelsId) {
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        String writerUuid = "test-writer-uuid";
+    public BaseResponseEntity<Void> deleteReels(
+            HttpServletRequest httpServletRequest,
+            @PathVariable("reelsId") String reelsId) {
+        
+        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
         reelsService.deleteReels(reelsId, writerUuid);
         return new BaseResponseEntity<>();
     }

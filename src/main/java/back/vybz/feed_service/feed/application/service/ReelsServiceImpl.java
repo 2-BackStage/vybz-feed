@@ -48,6 +48,7 @@ public class ReelsServiceImpl implements ReelsService {
                     .humanTag(saved.getHumanTag())
                     .fileList(saved.getFileList())
                     .createdAt(saved.getCreatedAt())
+                    .membership(saved.getMembership())
                     .build();
 
             commonKafkaProducer.send("reels-create", event);
@@ -131,6 +132,4 @@ public class ReelsServiceImpl implements ReelsService {
 
         reelsRepository.delete(feed);
     }
-
-
 }

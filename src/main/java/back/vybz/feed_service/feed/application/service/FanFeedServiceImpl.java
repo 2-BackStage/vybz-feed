@@ -25,17 +25,14 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 
     /**
-     * 팬 피드를 생성하는 메서드
-     *
-     * @param requestAddFanFeedDto 팬 피드 생성 요청 DTO
+     * 팬피드 등록
      */
     @Override
     @Transactional
-    public void createFanFeed(RequestAddFanFeedDto requestAddFanFeedDto){
+    public void createFanFeed(RequestAddFanFeedDto requestAddFanFeedDto) {
         try {
             Feed feed = requestAddFanFeedDto.toEntity();
             Feed saved = fanFeedRepository.save(feed);
-
 
             FanFeedCreateEvent event = FanFeedCreateEvent.builder()
                     .id(saved.getId())
@@ -58,12 +55,11 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 
     /**
-     * 팬 피드를 업데이트하는 메서드
-     * @param requestUpdateFanFeedDto 팬 피드 업데이트 요청 DTO
+     * 팬피드 수정
      */
     @Override
     @Transactional
-    public void updateFanFeed(RequestUpdateFanFeedDto requestUpdateFanFeedDto){
+    public void updateFanFeed(RequestUpdateFanFeedDto requestUpdateFanFeedDto) {
         Feed feed = fanFeedRepository.findById(requestUpdateFanFeedDto.getId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.FAN_FEED_NOT_FOUND));
 
@@ -72,7 +68,6 @@ public class FanFeedServiceImpl implements FanFeedService {
         }
 
         fanFeedRepository.updateFanFeedById(requestUpdateFanFeedDto.getId(), requestUpdateFanFeedDto);
-
 
         FanFeedUpdateEvent event = FanFeedUpdateEvent.builder()
                 .id(feed.getId())
@@ -91,19 +86,17 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 
     /**
-     * 팬 피드를 삭제하는 메서드
-     * @param id 팬 피드 ID
+     * 팬피드 삭제
      */
     @Override
     @Transactional
-    public void deleteFanFeed(String fanFeedId, String writerUuid){
+    public void deleteFanFeed(String fanFeedId, String writerUuid) {
         Feed feed = fanFeedRepository.findById(fanFeedId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.FAN_FEED_NOT_FOUND));
 
         if (!feed.getWriterUuid().equals(writerUuid)) {
             throw new BaseException(BaseResponseStatus.NO_AUTHORIZATION_TO_DELETE_FAN_FEED);
         }
-
 
         FeedDeleteEvent event = FeedDeleteEvent.builder()
                 .id(feed.getId())
@@ -116,6 +109,4 @@ public class FanFeedServiceImpl implements FanFeedService {
 
         fanFeedRepository.delete(feed);
     }
-
-
 }

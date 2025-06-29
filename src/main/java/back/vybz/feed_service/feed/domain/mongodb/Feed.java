@@ -53,6 +53,9 @@ public class Feed {
     // 위치
     private String location;
 
+    // 구독자 전용 여부
+    private Boolean membership;
+
     @CreatedDate
     @Field(name = "created_at")
     private Instant createdAt;
@@ -73,7 +76,8 @@ public class Feed {
                 List<String> hashTag,
                 FeedType feedType,
                 List<FeedFile> fileList,
-                String location) {
+                String location,
+                Boolean membership) {
         this.id = id;
         this.writerUuid = writerUuid;
         this.writerType = writerType;
@@ -86,6 +90,7 @@ public class Feed {
         this.feedType = feedType;
         this.fileList = fileList;
         this.location = location;
+        this.membership = membership != null ? membership : false;
     }
 
 

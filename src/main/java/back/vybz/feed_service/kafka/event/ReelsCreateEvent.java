@@ -23,6 +23,7 @@ public class ReelsCreateEvent {
     private List<TaggedHuman> humanTag;
     private List<FeedFile> fileList;
     private Instant createdAt;
+    private Boolean membership;
 
     @Builder
     public ReelsCreateEvent(String id,
@@ -33,7 +34,8 @@ public class ReelsCreateEvent {
                             List<String> hashTag,
                             List<TaggedHuman> humanTag,
                             List<FeedFile> fileList,
-                            Instant createdAt) {
+                            Instant createdAt,
+                            Boolean membership) {
         this.id = id;
         this.writerUuid = writerUuid;
         this.writerType = writerType;
@@ -43,5 +45,6 @@ public class ReelsCreateEvent {
         this.humanTag = humanTag;
         this.fileList = fileList;
         this.createdAt = createdAt;
+        this.membership = membership;
     }
 }

@@ -7,6 +7,7 @@ import back.vybz.feed_service.feed.dto.request.RequestUpdateNoticeDto;
 import back.vybz.feed_service.feed.vo.request.RequestAddNoticeVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateNoticeVo;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +27,11 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PostMapping("/notice")
-    public BaseResponseEntity<Void> createNotice(//HttpServletRequest httpServletRequest,
-                                                               @Valid @RequestBody RequestAddNoticeVo requestAddNoticeVo){
+    public BaseResponseEntity<Void> createNotice(
+            HttpServletRequest httpServletRequest,
+            @Valid @RequestBody RequestAddNoticeVo requestAddNoticeVo) {
 
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        String writerUuid = "test-writer-uuid";
+        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
         RequestAddNoticeDto requestAddNoticeDto = RequestAddNoticeDto.from(requestAddNoticeVo, writerUuid);
         noticeService.createNotice(requestAddNoticeDto);
         return new BaseResponseEntity<>();
@@ -43,12 +44,13 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PutMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> updateNotice(//HttpServletRequest httpServletRequest,
-                                                 @PathVariable("noticeId") String noticeId,
-                                                 @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        String writerUuid = "test-writer-uuid";
-        noticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId,requestUpdateNoticeVo, writerUuid));
+    public BaseResponseEntity<Void> updateNotice(
+            HttpServletRequest httpServletRequest,
+            @PathVariable("noticeId") String noticeId,
+            @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
+        
+        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
+        noticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId, requestUpdateNoticeVo, writerUuid));
         return new BaseResponseEntity<>();
     }
 
@@ -58,11 +60,11 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @DeleteMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> deleteNotice(//HttpServletRequest httpServletRequest,
-                                                 @PathVariable("noticeId") String noticeId) {
+    public BaseResponseEntity<Void> deleteNotice(
+            HttpServletRequest httpServletRequest,
+            @PathVariable("noticeId") String noticeId) {
 
-        //String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        String writerUuid = "test-writer-uuid";
+        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
         noticeService.deleteNotice(noticeId, writerUuid);
         return new BaseResponseEntity<>();
     }
