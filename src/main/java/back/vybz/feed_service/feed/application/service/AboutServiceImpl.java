@@ -3,7 +3,6 @@ package back.vybz.feed_service.feed.application.service;
 import back.vybz.feed_service.common.exception.BaseException;
 import back.vybz.feed_service.common.exception.BaseResponseStatus;
 import back.vybz.feed_service.feed.domain.mongodb.Feed;
-import back.vybz.feed_service.feed.domain.mongodb.FeedType;
 import back.vybz.feed_service.feed.dto.request.RequestAddAboutDto;
 import back.vybz.feed_service.feed.dto.request.RequestUpdateAboutDto;
 import back.vybz.feed_service.feed.infrastructure.repository.AboutRepository;
@@ -26,41 +25,36 @@ public class AboutServiceImpl implements AboutService {
 
 
     /**
-     * @param requestAddAboutDto
+     * 소개글 등록
      */
     @Override
     @Transactional
     public void createAbout(RequestAddAboutDto requestAddAboutDto) {
-        boolean exists = aboutRepository.existsByWriterUuidAndFeedType(
-                requestAddAboutDto.getWriterUuid(),
-                FeedType.ABOUT
-        );
+        try {
+            Feed feed = requestAddAboutDto.toEntity();
+            Feed saved = aboutRepository.save(feed);
 
-        if (exists) {
-            throw new BaseException(BaseResponseStatus.ALREADY_EXISTS_ABOUT);
+            AboutCreateEvent event = AboutCreateEvent.builder()
+                    .id(saved.getId())
+                    .writerUuid(saved.getWriterUuid())
+                    .writerType(saved.getWriterType())
+                    .content(saved.getContent())
+                    .hashTag(saved.getHashTag())
+                    .fileList(saved.getFileList())
+                    .createdAt(saved.getCreatedAt())
+                    .build();
+
+            commonKafkaProducer.send("about-create", event);
+
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.ABOUT_CREATE_FAIL);
         }
-
-        Feed saved = aboutRepository.save(requestAddAboutDto.toEntity());
-
-
-        AboutCreateEvent event = AboutCreateEvent.builder()
-                .id(saved.getId())
-                .writerUuid(saved.getWriterUuid())
-                .writerType(saved.getWriterType())
-                .content(saved.getContent())
-                .hashTag(saved.getHashTag())
-                .fileList(saved.getFileList())
-                .createdAt(saved.getCreatedAt())
-                .build();
-
-        commonKafkaProducer.send("about-create", event);
     }
 
-    /**
-     *
-     * @param requestUpdateAboutDto
-     */
 
+    /**
+     * 소개글 수정
+     */
     @Override
     @Transactional
     public void updateAbout(RequestUpdateAboutDto requestUpdateAboutDto) {
@@ -72,7 +66,6 @@ public class AboutServiceImpl implements AboutService {
         }
 
         aboutRepository.updateAboutById(requestUpdateAboutDto.getId(), requestUpdateAboutDto);
-
 
         AboutUpdateEvent event = AboutUpdateEvent.builder()
                 .id(feed.getId())
@@ -87,10 +80,9 @@ public class AboutServiceImpl implements AboutService {
         commonKafkaProducer.send("about-update", event);
     }
 
+
     /**
-     *
-     * @param aboutId
-     * @param writerUuid
+     * 소개글 삭제
      */
     @Override
     @Transactional
@@ -113,5 +105,4 @@ public class AboutServiceImpl implements AboutService {
 
         aboutRepository.delete(feed);
     }
-
 }

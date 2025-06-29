@@ -50,6 +50,7 @@ public class NoticeServiceImpl implements NoticeService {
                     .startedAt(saved.getStartedAt())
                     .endedAt(saved.getEndedAt())
                     .createdAt(saved.getCreatedAt())
+                    .membership(saved.getMembership())
                     .build();
 
             commonKafkaProducer.send("notice-create", event);
@@ -122,11 +123,13 @@ public class NoticeServiceImpl implements NoticeService {
     private Instant parseToInstantOrNull(String value) {
         if (value == null || value.isBlank()) return null;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        return LocalDateTime.parse(value, formatter)
-                .atZone(ZoneId.of("Asia/Seoul"))
-                .toInstant();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            return LocalDateTime.parse(value, formatter)
+                    .atZone(ZoneId.of("Asia/Seoul"))
+                    .toInstant();
+        } catch (Exception e) {
+            throw new BaseException(BaseResponseStatus.INVALID_REQUEST);
+        }
     }
-
-
 }

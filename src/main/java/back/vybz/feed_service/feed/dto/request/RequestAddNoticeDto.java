@@ -28,6 +28,7 @@ public class RequestAddNoticeDto {
     private FeedType feedType;
     private String startedAt;
     private String endedAt;
+    private Boolean membership;
 
     @Builder
     public RequestAddNoticeDto(String writerUuid,
@@ -39,7 +40,8 @@ public class RequestAddNoticeDto {
                                List<TaggedHuman> humanTag,
                                List<FeedFile> fileList,
                                String startedAt,
-                               String endedAt) {
+                               String endedAt,
+                               Boolean membership) {
         this.writerUuid = writerUuid;
         this.writerType = writerType;
         this.title = title;
@@ -51,6 +53,7 @@ public class RequestAddNoticeDto {
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
+        this.membership = membership != null ? membership : false;
     }
 
     public static RequestAddNoticeDto from(RequestAddNoticeVo requestAddNoticeVo, String writerUuid) {
@@ -65,6 +68,7 @@ public class RequestAddNoticeDto {
                 .fileList(requestAddNoticeVo.getFileList())
                 .startedAt(requestAddNoticeVo.getStartedAt())
                 .endedAt(requestAddNoticeVo.getEndedAt())
+                .membership(requestAddNoticeVo.getMembership())
                 .build();
     }
 
@@ -81,9 +85,11 @@ public class RequestAddNoticeDto {
                 .startedAt(parseToInstant(startedAt))
                 .endedAt(parseToInstant(endedAt))
                 .feedType(FeedType.NOTICE)
+                .membership(membership)
                 .build();
     }
     private Instant parseToInstant(String value) {
+        if (value == null || value.isBlank()) return null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return LocalDateTime.parse(value, formatter)
                 .atZone(ZoneId.of("Asia/Seoul"))

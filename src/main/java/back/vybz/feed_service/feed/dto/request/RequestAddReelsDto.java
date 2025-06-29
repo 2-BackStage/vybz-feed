@@ -20,6 +20,7 @@ public class RequestAddReelsDto {
     private List<String> hashTag;
     private List<TaggedHuman> humanTag;
     private List<FeedFile> fileList;
+    private Boolean membership;
 
     @Builder
     public RequestAddReelsDto(String writerUuid,
@@ -29,7 +30,8 @@ public class RequestAddReelsDto {
                               String location,
                               List<String> hashTag,
                               List<TaggedHuman> humanTag,
-                              List<FeedFile> fileList) {
+                              List<FeedFile> fileList,
+                              Boolean membership) {
         this.writerUuid = writerUuid;
         this.writerType = writerType;
         this.content = content;
@@ -38,6 +40,7 @@ public class RequestAddReelsDto {
         this.hashTag = hashTag;
         this.humanTag = humanTag;
         this.fileList = fileList;
+        this.membership = membership != null ? membership : false;
     }
 
     public static RequestAddReelsDto from(RequestAddReelsVo requestAddReelsVo, String writerUuid){
@@ -49,6 +52,7 @@ public class RequestAddReelsDto {
                 .hashTag(requestAddReelsVo.getHashTag())
                 .humanTag(requestAddReelsVo.getHumanTag())
                 .fileList(requestAddReelsVo.getFileList())
+                .membership(requestAddReelsVo.getMembership())
                 .build();
     }
     public Feed toEntity(){
@@ -61,6 +65,7 @@ public class RequestAddReelsDto {
                 .humanTag(humanTag)
                 .fileList(fileList)
                 .feedType(FeedType.REELS)
+                .membership(membership)
                 .build();
     }
 
