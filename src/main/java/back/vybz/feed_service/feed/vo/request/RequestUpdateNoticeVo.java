@@ -20,6 +20,7 @@ public class RequestUpdateNoticeVo {
     private List<FeedFile> fileList;
     private String startedAt;
     private String endedAt;
+    private String writerUuid;
 
     @Builder
     public RequestUpdateNoticeVo(String title,
@@ -29,7 +30,8 @@ public class RequestUpdateNoticeVo {
                                  List<TaggedHuman> humanTag,
                                  List<FeedFile> fileList,
                                  String startedAt,
-                                 String endedAt) {
+                                 String endedAt,
+                                 String writerUuid) {
         this.title = title;
         this.content = content;
         this.location = location;
@@ -38,5 +40,6 @@ public class RequestUpdateNoticeVo {
         this.fileList = fileList;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
+        this.writerUuid = writerUuid;
     }
 }

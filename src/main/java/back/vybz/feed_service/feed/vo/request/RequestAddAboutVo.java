@@ -26,12 +26,16 @@ public class RequestAddAboutVo {
     @Schema(description = "해시태그")
     private List<String> hashTag;
 
+    private String writerUuid;
+
     @Builder
     public RequestAddAboutVo(String content,
                              List<FeedFile> fileList,
-                             List<String> hashTag) {
+                             List<String> hashTag,
+                             String writerUuid) {
         this.content = content;
         this.fileList = fileList;
         this.hashTag = hashTag;
+        this.writerUuid = writerUuid;
     }
 }

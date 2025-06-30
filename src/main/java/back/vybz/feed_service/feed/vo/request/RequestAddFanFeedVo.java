@@ -34,18 +34,22 @@ public class RequestAddFanFeedVo {
     @Schema(description = "위치")
     private String location;
 
+    private String writerUuid;
+
     @Builder
     public RequestAddFanFeedVo(
                                 String content,
                                 List<TaggedHuman> humanTag,
                                 List<String> hashTag,
                                 List<FeedFile> fileList,
-                                String location) {
+                                String location,
+                                String writerUuid) {
 
         this.content = content;
         this.humanTag = humanTag;
         this.hashTag = hashTag;
         this.fileList = fileList;
         this.location = location;
+        this.writerUuid = writerUuid;
     }
 }

@@ -28,6 +28,8 @@ public class RequestAddReelsVo {
     @Size(max = 1, message = "파일은 최대 1개까지 첨부할 수 있습니다.")
     private List<FeedFile> fileList;
 
+    private String writerUuid;
+
     // 구독자 전용 여부
     private Boolean membership;
 
@@ -37,13 +39,15 @@ public class RequestAddReelsVo {
                              List<String> hashTag,
                              List<TaggedHuman> humanTag,
                              List<FeedFile> fileList,
-                             Boolean membership) {
+                             Boolean membership,
+                             String writerUuid) {
         this.content = content;
         this.location = location;
         this.hashTag = hashTag;
         this.humanTag = humanTag;
         this.fileList = fileList;
         this.membership = membership != null ? membership : false;
+        this.writerUuid = writerUuid;
     }
 
 }

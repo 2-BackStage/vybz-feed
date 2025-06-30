@@ -18,6 +18,7 @@ public class RequestUpdateFanFeedVo {
     private List<String> hashTag;
     private List<FeedFile> fileList;
     private String location;
+    private String writerUuid;
 
     @Builder
     private RequestUpdateFanFeedVo(String content,
@@ -25,11 +26,13 @@ public class RequestUpdateFanFeedVo {
                                     List<String> hashTag,
                                     FeedType feedType,
                                     List<FeedFile> fileList,
-                                    String location) {
+                                    String location,
+                                   String writerUuid) {
         this.content = content;
         this.humanTag = humanTag;
         this.hashTag = hashTag;
         this.fileList = fileList;
         this.location = location;
+        this.writerUuid = writerUuid;
     }
 }

@@ -34,6 +34,8 @@ public class RequestAddNoticeVo {
 
     private String endedAt;
 
+    private String writerUuid;
+
     // 구독자 전용 여부
     private Boolean membership;
 
@@ -46,6 +48,7 @@ public class RequestAddNoticeVo {
                               List<FeedFile> fileList,
                               String startedAt,
                               String endedAt,
+                                String writerUuid,
                               Boolean membership) {
         this.title = title;
         this.content = content;
@@ -56,5 +59,6 @@ public class RequestAddNoticeVo {
         this.startedAt = startedAt;
         this.endedAt = endedAt;
         this.membership = membership != null ? membership : false;
+        this.writerUuid = writerUuid;
     }
 }

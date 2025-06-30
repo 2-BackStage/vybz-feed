@@ -13,13 +13,16 @@ public class RequestUpdateAboutVo {
     private String content;
     private List<FeedFile> fileList;
     private List<String> hashTag;
+    private String writerUuid;
 
     @Builder
     public RequestUpdateAboutVo(String content,
                                 List<FeedFile> fileList,
-                                List<String> hashTag) {
+                                List<String> hashTag,
+                                String writerUuid) {
         this.content = content;
         this.fileList = fileList;
         this.hashTag = hashTag;
+        this.writerUuid = writerUuid;
     }
 }
