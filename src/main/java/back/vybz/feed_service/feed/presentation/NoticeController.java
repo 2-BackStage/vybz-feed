@@ -32,6 +32,9 @@ public class NoticeController {
             @Valid @RequestBody RequestAddNoticeVo requestAddNoticeVo) {
 
         String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
+        if (writerUuid == null || writerUuid.isEmpty()) {
+            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
+        }
         RequestAddNoticeDto requestAddNoticeDto = RequestAddNoticeDto.from(requestAddNoticeVo, writerUuid);
         noticeService.createNotice(requestAddNoticeDto);
         return new BaseResponseEntity<>();
@@ -50,6 +53,9 @@ public class NoticeController {
             @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
         
         String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
+        if (writerUuid == null || writerUuid.isEmpty()) {
+            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
+        }
         noticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId, requestUpdateNoticeVo, writerUuid));
         return new BaseResponseEntity<>();
     }
@@ -65,6 +71,9 @@ public class NoticeController {
             @PathVariable("noticeId") String noticeId) {
 
         String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
+        if (writerUuid == null || writerUuid.isEmpty()) {
+            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
+        }
         noticeService.deleteNotice(noticeId, writerUuid);
         return new BaseResponseEntity<>();
     }

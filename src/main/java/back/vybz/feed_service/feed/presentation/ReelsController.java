@@ -30,6 +30,9 @@ public class ReelsController {
             @RequestBody RequestAddReelsVo requestAddReelsVo) {
         
         String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
+        if (writerUuid == null || writerUuid.isEmpty()) {
+            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
+        }
         RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo, writerUuid);
         reelsService.createReels(requestAddReelsDto);
         return new BaseResponseEntity<>();
@@ -47,6 +50,9 @@ public class ReelsController {
             @Valid @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
         
         String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
+        if (writerUuid == null || writerUuid.isEmpty()) {
+            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
+        }
         reelsService.updateReels(RequestUpdateReelsDto.of(reelsId, requestUpdateReelsVo, writerUuid));
         return new BaseResponseEntity<>();
     }
@@ -62,6 +68,9 @@ public class ReelsController {
             @PathVariable("reelsId") String reelsId) {
         
         String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
+        if (writerUuid == null || writerUuid.isEmpty()) {
+            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
+        }
         reelsService.deleteReels(reelsId, writerUuid);
         return new BaseResponseEntity<>();
     }

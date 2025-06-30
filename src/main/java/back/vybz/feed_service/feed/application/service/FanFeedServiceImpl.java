@@ -11,6 +11,7 @@ import back.vybz.feed_service.kafka.event.FanFeedUpdateEvent;
 import back.vybz.feed_service.kafka.event.FeedDeleteEvent;
 import back.vybz.feed_service.kafka.producer.CommonKafkaProducer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FanFeedServiceImpl implements FanFeedService {
 
     private final FanFeedRepository fanFeedRepository;
@@ -32,7 +34,17 @@ public class FanFeedServiceImpl implements FanFeedService {
     public void createFanFeed(RequestAddFanFeedDto requestAddFanFeedDto) {
         try {
             Feed feed = requestAddFanFeedDto.toEntity();
+            
+            // 디버깅을 위한 로그 추가
+            log.info("=== FanFeed 생성 디버깅 ===");
+            log.info("RequestAddFanFeedDto writerUuid: {}", requestAddFanFeedDto.getWriterUuid());
+            log.info("Feed 엔티티 writerUuid: {}", feed.getWriterUuid());
+            log.info("Feed 엔티티 전체: {}", feed);
+            
             Feed saved = fanFeedRepository.save(feed);
+            
+            log.info("저장된 Feed 엔티티 writerUuid: {}", saved.getWriterUuid());
+            log.info("저장된 Feed 엔티티 전체: {}", saved);
 
             FanFeedCreateEvent event = FanFeedCreateEvent.builder()
                     .id(saved.getId())
@@ -49,6 +61,7 @@ public class FanFeedServiceImpl implements FanFeedService {
             commonKafkaProducer.send("fanfeed-create", event);
 
         } catch (Exception e) {
+            log.error("FanFeed 생성 중 오류 발생", e);
             throw new BaseException(BaseResponseStatus.FAN_FEED_CREATE_FAIL);
         }
     }

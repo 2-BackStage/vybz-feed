@@ -3,6 +3,7 @@ package back.vybz.feed_service.feed.domain.mongodb;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@ToString
 @Document("feed")
 public class Feed {
 
@@ -21,11 +23,9 @@ public class Feed {
     private String id;
 
     //작성자 uuid
-    @Field(name = "writer_uuid")
     private String writerUuid;
 
     // 작성자 타입
-    @Field(name = "writer_type")
     private WriterType writerType;
 
     //공지 제목
