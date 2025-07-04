@@ -7,7 +7,6 @@ import back.vybz.feed_service.feed.dto.request.RequestUpdateNoticeDto;
 import back.vybz.feed_service.feed.vo.request.RequestAddNoticeVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateNoticeVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,15 +26,9 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PostMapping("/notice")
-    public BaseResponseEntity<Void> createNotice(
-            HttpServletRequest httpServletRequest,
-            @Valid @RequestBody RequestAddNoticeVo requestAddNoticeVo) {
+    public BaseResponseEntity<Void> createNotice(@Valid @RequestBody RequestAddNoticeVo requestAddNoticeVo) {
 
-        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
-        if (writerUuid == null || writerUuid.isEmpty()) {
-            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
-        }
-        RequestAddNoticeDto requestAddNoticeDto = RequestAddNoticeDto.from(requestAddNoticeVo, writerUuid);
+        RequestAddNoticeDto requestAddNoticeDto = RequestAddNoticeDto.from(requestAddNoticeVo, requestAddNoticeVo.getWriterUuid());
         noticeService.createNotice(requestAddNoticeDto);
         return new BaseResponseEntity<>();
     }
@@ -47,16 +40,10 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @PutMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> updateNotice(
-            HttpServletRequest httpServletRequest,
-            @PathVariable("noticeId") String noticeId,
-            @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
+    public BaseResponseEntity<Void> updateNotice(@PathVariable("noticeId") String noticeId,
+                                                @RequestBody RequestUpdateNoticeVo requestUpdateNoticeVo) {
         
-        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
-        if (writerUuid == null || writerUuid.isEmpty()) {
-            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
-        }
-        noticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId, requestUpdateNoticeVo, writerUuid));
+        noticeService.updateNotice(RequestUpdateNoticeDto.of(noticeId, requestUpdateNoticeVo, requestUpdateNoticeVo.getWriterUuid()));
         return new BaseResponseEntity<>();
     }
 
@@ -66,15 +53,9 @@ public class NoticeController {
             tags = {"BUSKER-SERVICE"}
     )
     @DeleteMapping("/notice/{noticeId}")
-    public BaseResponseEntity<Void> deleteNotice(
-            HttpServletRequest httpServletRequest,
-            @PathVariable("noticeId") String noticeId) {
+    public BaseResponseEntity<Void> deleteNotice(@PathVariable("noticeId") String noticeId) {
 
-        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
-        if (writerUuid == null || writerUuid.isEmpty()) {
-            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
-        }
-        noticeService.deleteNotice(noticeId, writerUuid);
+        noticeService.deleteNotice(noticeId, null);
         return new BaseResponseEntity<>();
     }
 }

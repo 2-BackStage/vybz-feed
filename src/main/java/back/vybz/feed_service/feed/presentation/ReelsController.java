@@ -7,7 +7,6 @@ import back.vybz.feed_service.feed.dto.request.RequestUpdateReelsDto;
 import back.vybz.feed_service.feed.vo.request.RequestAddReelsVo;
 import back.vybz.feed_service.feed.vo.request.RequestUpdateReelsVo;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,15 +24,9 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @PostMapping("/reels")
-    public BaseResponseEntity<Void> createReels(
-            HttpServletRequest httpServletRequest,
-            @RequestBody RequestAddReelsVo requestAddReelsVo) {
+    public BaseResponseEntity<Void> createReels(@RequestBody RequestAddReelsVo requestAddReelsVo) {
         
-        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
-        if (writerUuid == null || writerUuid.isEmpty()) {
-            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
-        }
-        RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo, writerUuid);
+        RequestAddReelsDto requestAddReelsDto = RequestAddReelsDto.from(requestAddReelsVo, requestAddReelsVo.getWriterUuid());
         reelsService.createReels(requestAddReelsDto);
         return new BaseResponseEntity<>();
     }
@@ -44,16 +37,10 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @PutMapping("/reels/{reelsId}")
-    public BaseResponseEntity<Void> updateReels(
-            HttpServletRequest httpServletRequest,
-            @PathVariable("reelsId") String reelsId,
-            @Valid @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
+    public BaseResponseEntity<Void> updateReels(@PathVariable("reelsId") String reelsId,
+                                               @Valid @RequestBody RequestUpdateReelsVo requestUpdateReelsVo) {
         
-        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
-        if (writerUuid == null || writerUuid.isEmpty()) {
-            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
-        }
-        reelsService.updateReels(RequestUpdateReelsDto.of(reelsId, requestUpdateReelsVo, writerUuid));
+        reelsService.updateReels(RequestUpdateReelsDto.of(reelsId, requestUpdateReelsVo, requestUpdateReelsVo.getWriterUuid()));
         return new BaseResponseEntity<>();
     }
 
@@ -63,15 +50,9 @@ public class ReelsController {
             tags = {"FEED-SERVICE"}
     )
     @DeleteMapping("/reels/{reelsId}")
-    public BaseResponseEntity<Void> deleteReels(
-            HttpServletRequest httpServletRequest,
-            @PathVariable("reelsId") String reelsId) {
+    public BaseResponseEntity<Void> deleteReels(@PathVariable("reelsId") String reelsId) {
         
-        String writerUuid = httpServletRequest.getHeader("X-Busker-Id");
-        if (writerUuid == null || writerUuid.isEmpty()) {
-            throw new IllegalArgumentException("X-Busker-Id 헤더가 필요합니다.");
-        }
-        reelsService.deleteReels(reelsId, writerUuid);
+        reelsService.deleteReels(reelsId, null);
         return new BaseResponseEntity<>();
     }
 }
